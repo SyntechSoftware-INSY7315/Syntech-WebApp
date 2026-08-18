@@ -1,0 +1,184 @@
+﻿@model Syntech.WebApp.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            ```
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h1 class="text-center mb-4">
+                        Sign In
+                    </h1>
+
+                    <p class="text-muted text-center mb-4">
+                        Sign in to your Syntech Software account.
+                    </p>
+
+
+                    @* =========================================================
+                   REGISTRATION SUCCESS MESSAGE
+                   ========================================================= *@
+
+                    @if (TempData["RegistrationSuccess"] != null)
+                    {
+                        <div class="alert alert-success"
+                             role="alert">
+
+                            @TempData["RegistrationSuccess"]
+
+                        </div>
+                    }
+
+
+                    @* =========================================================
+                   GENERAL VALIDATION ERRORS
+                   ========================================================= *@
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mb-3">
+                    </div>
+
+
+                    @* =========================================================
+                   LOGIN FORM
+                   ========================================================= *@
+
+                    <form asp-controller="Account"
+                          asp-action="Login"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+
+                        @*
+                        Preserve the return URL when one exists.
+
+                        This allows a user who attempted to access a
+                        protected page to return to that page after
+                        successfully logging in.
+                    *@
+
+                        @if (ViewData["ReturnUrl"] != null)
+                        {
+                            <input type="hidden"
+                                   name="returnUrl"
+                                   value="@ViewData["ReturnUrl"]" />
+                        }
+
+
+                        @* =====================================================
+                       EMAIL
+                       ===================================================== *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="Email"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   autocomplete="email"
+                                   autofocus
+                                   placeholder="Enter your email address" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =====================================================
+                       PASSWORD
+                       ===================================================== *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="Password"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   autocomplete="current-password"
+                                   placeholder="Enter your password" />
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =====================================================
+                       REMEMBER ME
+                       ===================================================== *@
+
+                        <div class="form-check mb-4">
+
+                            <input asp-for="RememberMe"
+                                   class="form-check-input" />
+
+                            <label asp-for="RememberMe"
+                                   class="form-check-label">
+                            </label>
+
+                        </div>
+
+
+                        @* =====================================================
+                       SUBMIT
+                       ===================================================== *@
+
+                        <div class="d-grid">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Sign In
+                            </button>
+
+                        </div>
+
+                    </form>
+
+
+                    <hr class="my-4" />
+
+
+                    @* =========================================================
+                   REGISTRATION LINK
+                   ========================================================= *@
+
+                    <p class="text-center mb-0">
+
+                        Don't have an account?
+
+                        <a asp-controller="Account"
+                           asp-action="Register">
+                            Create an account
+                        </a>
+
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    ```
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

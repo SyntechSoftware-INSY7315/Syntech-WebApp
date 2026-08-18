@@ -1,0 +1,209 @@
+﻿@model Syntech.WebApp.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h1 class="text-center mb-4">
+                        Create Your Account
+                    </h1>
+
+                    <p class="text-muted text-center mb-4">
+                        Register for access to the Syntech Software platform.
+                    </p>
+
+
+                    <form asp-controller="Account"
+                          asp-action="Register"
+                          method="post">
+
+                        @*
+                        Anti-forgery protection is generated automatically
+                        for this form.
+
+                        The AccountController's [ValidateAntiForgeryToken]
+                        attribute verifies the token when the form is
+                        submitted.
+                    *@
+                        @Html.AntiForgeryToken()
+
+
+                        @* Display general validation errors. *@
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+
+                        @* =====================================================
+                       NAME
+                       ===================================================== *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="Name"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Name"
+                                   class="form-control"
+                                   autocomplete="name"
+                                   placeholder="Enter your full name" />
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =====================================================
+                       EMAIL
+                       ===================================================== *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="Email"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   autocomplete="email"
+                                   placeholder="Enter your email address" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =====================================================
+                       PASSWORD
+                       ===================================================== *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="Password"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   autocomplete="new-password"
+                                   placeholder="Create a password" />
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =====================================================
+                       CONFIRM PASSWORD
+                       ===================================================== *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="ConfirmPassword"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="ConfirmPassword"
+                                   class="form-control"
+                                   autocomplete="new-password"
+                                   placeholder="Confirm your password" />
+
+                            <span asp-validation-for="ConfirmPassword"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =====================================================
+                       ACCOUNT TYPE
+                       ===================================================== *@
+
+                        <div class="mb-4">
+
+                            <label asp-for="Role"
+                                   class="form-label">
+                            </label>
+
+                            <select asp-for="Role"
+                                    class="form-select">
+
+                                <option value="">
+                                    Select account type
+                                </option>
+
+                                <option value="Client">
+                                    Client
+                                </option>
+
+                                <option value="Developer">
+                                    Developer
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="Role"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =====================================================
+                       SUBMIT
+                       ===================================================== *@
+
+                        <div class="d-grid">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Create Account
+                            </button>
+
+                        </div>
+
+                    </form>
+
+
+                    <hr class="my-4" />
+
+
+                    <p class="text-center mb-0">
+
+                        Already have an account?
+
+                        <a asp-controller="Account"
+                           asp-action="Login">
+                            Log in
+                        </a>
+
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
