@@ -1,0 +1,226 @@
+﻿@model Syntech.WebApp.Models.AdminCreateUserViewModel
+
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    @* =====================================================
+                       PAGE HEADER
+                       ===================================================== *@
+
+                    <h1 class="mb-3">
+                        Create User
+                    </h1>
+
+                    <p class="text-muted mb-4">
+                        Create a new user account and assign the
+                        appropriate system role.
+                    </p>
+
+
+                    @* =====================================================
+                       VALIDATION SUMMARY
+                       ===================================================== *@
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mb-3">
+                    </div>
+
+
+                    @* =====================================================
+                       CREATE USER FORM
+                       ===================================================== *@
+
+                    <form asp-controller="UserManagement"
+                          asp-action="Create"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+
+                        @* =================================================
+                           FULL NAME
+                           ================================================= *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="Name"
+                                   class="form-label fw-bold">
+                            </label>
+
+                            <input asp-for="Name"
+                                   class="form-control"
+                                   autocomplete="name" />
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =================================================
+                           EMAIL ADDRESS
+                           ================================================= *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="Email"
+                                   class="form-label fw-bold">
+                            </label>
+
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   autocomplete="email" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =================================================
+                           INITIAL PASSWORD
+                           ================================================= *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="Password"
+                                   class="form-label fw-bold">
+                            </label>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   autocomplete="new-password" />
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger">
+                            </span>
+
+                            <small class="form-text text-muted">
+                                The password must be between 8 and
+                                100 characters.
+                            </small>
+
+                        </div>
+
+
+                        @* =================================================
+                           CONFIRM PASSWORD
+                           ================================================= *@
+
+                        <div class="mb-3">
+
+                            <label asp-for="ConfirmPassword"
+                                   class="form-label fw-bold">
+                            </label>
+
+                            <input asp-for="ConfirmPassword"
+                                   class="form-control"
+                                   autocomplete="new-password" />
+
+                            <span asp-validation-for="ConfirmPassword"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        @* =================================================
+                           ROLE
+                           ================================================= *@
+
+                        <div class="mb-4">
+
+                            <label asp-for="Role"
+                                   class="form-label fw-bold">
+                            </label>
+
+                            <select asp-for="Role"
+                                    class="form-select">
+
+                                <option value="">
+                                    -- Select Role --
+                                </option>
+
+                                <option value="Client">
+                                    Client
+                                </option>
+
+                                <option value="Developer">
+                                    Developer
+                                </option>
+
+                                <option value="Admin">
+                                    Admin
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="Role"
+                                  class="text-danger">
+                            </span>
+
+                            <small class="form-text text-muted">
+                                Administrators can create Client,
+                                Developer, and Admin accounts.
+                            </small>
+
+                        </div>
+
+
+                        @* =================================================
+                           ACTION BUTTONS
+                           ================================================= *@
+
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                Create User
+
+                            </button>
+
+
+                            <a asp-controller="UserManagement"
+                               asp-action="Index"
+                               class="btn btn-secondary">
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+}

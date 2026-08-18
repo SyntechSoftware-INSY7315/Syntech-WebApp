@@ -1,0 +1,250 @@
+﻿@model Syntech.WebApp.Models.DeveloperDashboardViewModel
+
+@{
+    ViewData["Title"] = "Developer Dashboard";
+}
+
+<div class="container mt-5">
+
+    @* ================================================================
+       DASHBOARD HEADER
+       ================================================================ *@
+
+    <div class="mb-4">
+
+        <h1 class="mb-2">
+            Developer Dashboard
+        </h1>
+
+        <p class="text-muted mb-0">
+            Welcome, @Model.Name.
+            This is your developer workspace.
+        </p>
+
+    </div>
+
+
+    @* ================================================================
+       DEVELOPER INFORMATION
+       ================================================================ *@
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h4 class="card-title mb-4">
+                        Developer Profile
+                    </h4>
+
+
+                    <dl class="row mb-0">
+
+                        <dt class="col-sm-4">
+                            Name
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.Name
+                        </dd>
+
+
+                        <dt class="col-sm-4">
+                            Email
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.Email
+                        </dd>
+
+
+                        <dt class="col-sm-4">
+                            User ID
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.UserId
+                        </dd>
+
+
+                        <dt class="col-sm-4">
+                            Role
+                        </dt>
+
+                        <dd class="col-sm-8">
+
+                            <span class="badge bg-primary">
+                                @Model.Role
+                            </span>
+
+                        </dd>
+
+                    </dl>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @* ============================================================
+           ACCOUNT STATUS
+           ============================================================ *@
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h4 class="card-title mb-4">
+                        Account Access
+                    </h4>
+
+
+                    <p>
+                        You are currently authenticated as a
+                        <strong>Developer</strong>.
+                    </p>
+
+
+                    <div class="alert alert-success mb-0">
+
+                        Your developer account is active and
+                        authenticated.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    @* ================================================================
+       DEVELOPER WORKSPACE
+       ================================================================ *@
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h4 class="mb-3">
+                Developer Workspace
+            </h4>
+
+
+            <p class="text-muted">
+                Developer-specific system functionality will be
+                available from this workspace.
+            </p>
+
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+
+                    <div class="border rounded p-4 h-100">
+
+                        <h5>
+                            Development
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Development functionality will be
+                            implemented here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="border rounded p-4 h-100">
+
+                        <h5>
+                            Assigned Work
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Assigned work and project functionality
+                            will be implemented here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="border rounded p-4 h-100">
+
+                        <h5>
+                            System Information
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Developer-specific system information
+                            will be displayed here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    @* ================================================================
+       ACCOUNT ACTIONS
+       ================================================================ *@
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h4 class="mb-3">
+                Account
+            </h4>
+
+
+            <div class="d-flex gap-2 flex-wrap">
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+
+                    Home
+
+                </a>
+
+
+                <a asp-controller="Account"
+                   asp-action="ChangePassword"
+                   class="btn btn-outline-primary">
+
+                    Change Password
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

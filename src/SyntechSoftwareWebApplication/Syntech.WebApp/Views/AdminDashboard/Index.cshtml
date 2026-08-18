@@ -1,0 +1,443 @@
+﻿@model Syntech.WebApp.Models.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Administrator Dashboard";
+}
+
+<div class="container mt-5">
+
+    @* ================================================================
+       DASHBOARD HEADER
+       ================================================================ *@
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1 class="mb-2">
+                Administrator Dashboard
+            </h1>
+
+            <p class="text-muted mb-0">
+                Welcome, @User.Identity?.Name.
+                Manage and monitor the Syntech system from here.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <a asp-controller="UserManagement"
+               asp-action="Index"
+               class="btn btn-primary">
+
+                Manage Users
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    @* ================================================================
+       SUCCESS MESSAGE
+       ================================================================ *@
+
+    @if (TempData["UserManagementSuccess"] != null)
+    {
+        <div class="alert alert-success"
+             role="alert">
+
+            @TempData["UserManagementSuccess"]
+
+        </div>
+    }
+
+
+    @* ================================================================
+       ERROR MESSAGE
+       ================================================================ *@
+
+    @if (TempData["UserManagementError"] != null)
+    {
+        <div class="alert alert-danger"
+             role="alert">
+
+            @TempData["UserManagementError"]
+
+        </div>
+    }
+
+
+    @* ================================================================
+       USER STATISTICS
+       ================================================================ *@
+
+    <div class="row g-4 mb-4">
+
+        @* TOTAL USERS *@
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-2">
+                        Total Users
+                    </p>
+
+                    <h2 class="display-6 mb-0">
+                        @Model.TotalUsers
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @* ACTIVE USERS *@
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-2">
+                        Active Users
+                    </p>
+
+                    <h2 class="display-6 text-success mb-0">
+                        @Model.ActiveUsers
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @* DEACTIVATED USERS *@
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-2">
+                        Deactivated
+                    </p>
+
+                    <h2 class="display-6 mb-0">
+                        @Model.DeactivatedUsers
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @* ADMINISTRATORS *@
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-2">
+                        Administrators
+                    </p>
+
+                    <h2 class="display-6 mb-0">
+                        @Model.AdminCount
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    @* ================================================================
+       ROLE BREAKDOWN
+       ================================================================ *@
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Administrators
+                    </h5>
+
+                    <p class="display-6">
+                        @Model.AdminCount
+                    </p>
+
+                    <p class="text-muted mb-0">
+                        Users with administrative privileges.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Developers
+                    </h5>
+
+                    <p class="display-6">
+                        @Model.DeveloperCount
+                    </p>
+
+                    <p class="text-muted mb-0">
+                        Developers registered in the system.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Clients
+                    </h5>
+
+                    <p class="display-6">
+                        @Model.ClientCount
+                    </p>
+
+                    <p class="text-muted mb-0">
+                        Clients registered in the system.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    @* ================================================================
+       RECENT USERS
+       ================================================================ *@
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h4 class="mb-0">
+                    Recent Users
+                </h4>
+
+
+                <a asp-controller="UserManagement"
+                   asp-action="Index"
+                   class="btn btn-sm btn-outline-primary">
+
+                    View All Users
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-body">
+
+            @if (Model.RecentUsers.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Name
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Role
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var user in Model.RecentUsers)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @user.UserId
+                                    </td>
+
+
+                                    <td>
+                                        @user.Name
+                                    </td>
+
+
+                                    <td>
+                                        @user.Email
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (user.Role == "Admin")
+                                        {
+                                            <span class="badge bg-danger">
+                                                Admin
+                                            </span>
+                                        }
+                                        else if (user.Role == "Developer")
+                                        {
+                                            <span class="badge bg-primary">
+                                                Developer
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">
+                                                Client
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (user.IsActive)
+                                        {
+                                            <span class="badge bg-success">
+                                                Active
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Deactivated
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">
+                    No users have been registered yet.
+                </p>
+            }
+
+        </div>
+
+    </div>
+
+
+    @* ================================================================
+       QUICK ACTIONS
+       ================================================================ *@
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h4 class="mb-3">
+                Quick Actions
+            </h4>
+
+
+            <div class="d-flex gap-2 flex-wrap">
+
+                <a asp-controller="UserManagement"
+                   asp-action="Index"
+                   class="btn btn-primary">
+
+                    Manage Users
+
+                </a>
+
+
+                <a asp-controller="UserManagement"
+                   asp-action="Create"
+                   class="btn btn-outline-primary">
+
+                    Create User
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
