@@ -59,6 +59,11 @@ namespace Syntech.WebApp.Data
         /// <param name="modelBuilder">
         /// Builder used to configure Entity Framework's database model.
         /// </param>
+
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectUpdate> ProjectUpdates { get; set; }
+        public DbSet<DeveloperProject> DeveloperProjects { get; set; }
+
         protected override void OnModelCreating(
             ModelBuilder modelBuilder)
         {
@@ -178,6 +183,65 @@ namespace Syntech.WebApp.Data
                     .HasForeignKey<Client>(
                         client => client.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // PROJECT
+            modelBuilder.Entity<Project>(entity =>
+            {
+                entity.ToTable("Project");
+                entity.HasKey(p => p.ProjectID);
+                entity.Property(p => p.ProjectID).HasColumnName("projectID");
+                entity.Property(p => p.ProjectName).HasColumnName("projectName");
+                entity.Property(p => p.Description).HasColumnName("description");
+                entity.Property(p => p.Status).HasColumnName("status");
+                entity.Property(p => p.ProgressPercentage).HasColumnName("progressPercentage");
+                entity.Property(p => p.StartDate).HasColumnName("startDate");
+                entity.Property(p => p.Deadline).HasColumnName("deadline");
+                entity.Property(p => p.ClientID).HasColumnName("clientID");
+                entity.Property(p => p.AdminID).HasColumnName("adminID");
+            });
+
+            // PROJECT UPDATE
+            modelBuilder.Entity<ProjectUpdate>(entity =>
+            {
+                entity.ToTable("ProjectUpdate");
+                entity.HasKey(p => p.UpdateID);
+                entity.Property(p => p.UpdateID).HasColumnName("updateID");
+                entity.Property(p => p.ProjectID).HasColumnName("projectID");
+                entity.Property(p => p.UserID).HasColumnName("userID");
+                entity.Property(p => p.UpdateTitle).HasColumnName("updateTitle");
+                entity.Property(p => p.UpdateDescription).HasColumnName("updateDescription");
+                entity.Property(p => p.ProgressPercentage).HasColumnName("progressPercentage");
+                entity.Property(p => p.CreatedDate).HasColumnName("createdDate");
+            });
+
+            modelBuilder.Entity<ProjectUpdate>()
+                .HasOne(pu => pu.Project)
+                .WithMany(p => p.ProjectUpdates)
+                .HasForeignKey(pu => pu.ProjectID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ProjectUpdate>()
+                .HasOne(pu => pu.User)
+                .WithMany()
+                .HasForeignKey(pu => pu.UserID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // DEVELOPER PROJECT
+            modelBuilder.Entity<DeveloperProject>(entity =>
+            {
+                entity.ToTable("DeveloperProject");
+                entity.HasKey(dp => new { dp.DeveloperID, dp.ProjectID });
+                entity.Property(dp => dp.DeveloperID).HasColumnName("developerID");
+                entity.Property(dp => dp.ProjectID).HasColumnName("projectID");
+
+                entity.HasOne(dp => dp.Project)
+                    .WithMany()
+                    .HasForeignKey(dp => dp.ProjectID);
+
+                entity.HasOne(dp => dp.Developer)
+                    .WithMany()
+                    .HasForeignKey(dp => dp.DeveloperID);
             });
         }
     }

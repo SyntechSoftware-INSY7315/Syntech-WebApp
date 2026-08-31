@@ -1,0 +1,84 @@
+﻿@model Syntech.WebApp.Models.ProjectUpdate
+
+@{
+    ViewData["Title"] = "Edit Project Update";
+    string projectName = ViewBag.ProjectName as string ?? "Project";
+}
+
+<div class="container mt-5">
+
+    <div class="mb-4">
+        <h1 class="mb-2">
+            Edit Project Update
+        </h1>
+        <p class="text-muted mb-0">
+            Editing your update on <strong>@projectName</strong>.
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form asp-action="EditUpdate" method="post">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="UpdateID" />
+                <input type="hidden" asp-for="ProjectID" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="UpdateTitle" class="form-label">
+                        Update Title
+                    </label>
+                    <input asp-for="UpdateTitle" class="form-control" />
+                    <span asp-validation-for="UpdateTitle" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="UpdateDescription" class="form-label">
+                        Description
+                    </label>
+                    <textarea asp-for="UpdateDescription"
+                              class="form-control"
+                              rows="4"></textarea>
+                    <span asp-validation-for="UpdateDescription" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ProgressPercentage" class="form-label">
+                        Progress Percentage (optional)
+                    </label>
+                    <input asp-for="ProgressPercentage"
+                           type="number"
+                           min="0"
+                           max="100"
+                           step="1"
+                           class="form-control"
+                           style="max-width: 200px;" />
+                    <div class="form-text">
+                        If provided, this becomes the project’s overall progress.
+                    </div>
+                    <span asp-validation-for="ProgressPercentage" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        Save Changes
+                    </button>
+                    <a asp-action="ProjectDetails"
+                       asp-route-id="@Model.ProjectID"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

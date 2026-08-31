@@ -1,0 +1,66 @@
+﻿@model Syntech.WebApp.Models.ProjectUpdate
+
+@{
+    ViewData["Title"] = "Delete Project Update";
+    string projectName = ViewBag.ProjectName as string ?? "Project";
+}
+
+<div class="container mt-5">
+
+    <div class="mb-4">
+        <h1 class="mb-2">
+            Delete Project Update
+        </h1>
+        <p class="text-muted mb-0">
+            Confirm deletion of your update on <strong>@projectName</strong>.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-danger">
+        <div class="card-body">
+
+            <div class="alert alert-warning" role="alert">
+                This action cannot be undone.
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-3">Title</dt>
+                <dd class="col-sm-9">@Model.UpdateTitle</dd>
+
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-9">@Model.UpdateDescription</dd>
+
+                <dt class="col-sm-3">Progress</dt>
+                <dd class="col-sm-9">
+                    @(Model.ProgressPercentage.HasValue
+                        ? Model.ProgressPercentage.Value.ToString("0") + "%"
+                        : "—")
+                </dd>
+
+                <dt class="col-sm-3">Created</dt>
+                <dd class="col-sm-9">@Model.CreatedDate.ToString("yyyy-MM-dd HH:mm")</dd>
+
+                <dt class="col-sm-3">Author</dt>
+                <dd class="col-sm-9">@(Model.User?.Name ?? "You")</dd>
+            </dl>
+
+            <form asp-action="DeleteUpdate" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="UpdateID" />
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger">
+                        Delete
+                    </button>
+                    <a asp-action="ProjectDetails"
+                       asp-route-id="@Model.ProjectID"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
