@@ -1,36 +1,97 @@
-﻿@{
+﻿@model IEnumerable<Syntech.WebApp.Models.ClientProjectListItemViewModel>
+
+@{
     ViewData["Title"] = "Client Dashboard";
 }
 
 <div class="container mt-5">
 
+    <div class="mb-4">
+        <h1 class="mb-2">
+            Client Dashboard
+        </h1>
+        <p class="text-muted mb-0">
+            Welcome, @User.Identity?.Name.
+            Here are the projects assigned to you.
+        </p>
+    </div>
+
     <div class="card shadow-sm">
+        <div class="card-body">
 
-        <div class="card-body p-5">
+            <h4 class="mb-3">
+                My Projects
+            </h4>
 
-            <h1 class="mb-3">
-                Client Dashboard
-            </h1>
-
-            <p class="lead">
-                Welcome, @User.Identity?.Name.
-            </p>
-
-            <p>
-                You are authenticated as a
-                <strong>Client</strong>.
-            </p>
-
-            <hr />
-
-            <p class="text-muted">
-                Client functionality will be implemented here,
-                including the functionality assigned to the Client
-                role.
-            </p>
+            @if (Model == null || !Model.Any())
+            {
+                <p class="text-muted mb-0">
+                    You do not have any projects assigned yet.
+                </p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Status</th>
+                                <th style="width: 180px;">Progress</th>
+                                <th>Start</th>
+                                <th>Deadline</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.ProjectName
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">
+                                            @item.Status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="progress flex-grow-1" style="height: 8px;">
+                                                <div class="progress-bar"
+                                                     role="progressbar"
+                                                     style="width: @(item.ProgressPercentage)%;"
+                                                     aria-valuenow="@item.ProgressPercentage"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                            <span class="small text-muted">
+                                                @item.ProgressPercentage.ToString("0")%
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @(item.StartDate?.ToString("yyyy-MM-dd") ?? "—")
+                                    </td>
+                                    <td>
+                                        @(item.Deadline?.ToString("yyyy-MM-dd") ?? "—")
+                                    </td>
+                                    <td class="text-end">
+                                        <a asp-action="ProjectDetails"
+                                           asp-route-id="@item.ProjectID"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
 
         </div>
-
     </div>
 
 </div>

@@ -1,0 +1,169 @@
+﻿@model Syntech.WebApp.Models.Project
+@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "Project Details";
+
+    int currentUserId = 0;
+    int.TryParse(
+        User.FindFirstValue(ClaimTypes.NameIdentifier),
+        out currentUserId);
+}
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div>
+            <h1 class="mb-2">
+                @Model.ProjectName
+            </h1>
+            <p class="text-muted mb-0">
+                Project details and your progress updates.
+            </p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="CreateUpdate"
+               asp-route-projectId="@Model.ProjectID"
+               class="btn btn-primary">
+                Add Update
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                Back to My Projects
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-8">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="mb-3">Overview</h4>
+
+                    <dl class="row mb-0">
+                        <dt class="col-sm-3">Status</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge bg-secondary">@Model.Status</span>
+                        </dd>
+
+                        <dt class="col-sm-3">Progress</dt>
+                        <dd class="col-sm-9">
+                            <div class="d-flex align-items-center gap-2" style="max-width: 320px;">
+                                <div class="progress flex-grow-1" style="height: 10px;">
+                                    <div class="progress-bar"
+                                         role="progressbar"
+                                         style="width: @(Model.ProgressPercentage)%;"
+                                         aria-valuenow="@Model.ProgressPercentage"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">
+                                    </div>
+                                </div>
+                                <span>@Model.ProgressPercentage.ToString("0")%</span>
+                            </div>
+                        </dd>
+
+                        <dt class="col-sm-3">Start date</dt>
+                        <dd class="col-sm-9">
+                            @(Model.StartDate?.ToString("yyyy-MM-dd") ?? "—")
+                        </dd>
+
+                        <dt class="col-sm-3">Deadline</dt>
+                        <dd class="col-sm-9">
+                            @(Model.Deadline?.ToString("yyyy-MM-dd") ?? "—")
+                        </dd>
+
+                        <dt class="col-sm-3">Description</dt>
+                        <dd class="col-sm-9">
+                            @if (string.IsNullOrWhiteSpace(Model.Description))
+                            {
+                                <span class="text-muted">No description provided.</span>
+                            }
+                            else
+                            {
+                                @Model.Description
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="mb-3">Actions</h4>
+                    <p class="mb-3">
+                        You can post progress notes and update the completion percentage
+                        for this assigned project. You can edit or delete only your own notes.
+                    </p>
+                    <a asp-action="CreateUpdate"
+                       asp-route-projectId="@Model.ProjectID"
+                       class="btn btn-primary w-100">
+                        Add Update
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="mb-3">Progress updates</h4>
+
+            @if (Model.ProjectUpdates == null || !Model.ProjectUpdates.Any())
+            {
+                <p class="text-muted mb-0">
+                    No updates have been posted for this project yet.
+                </p>
+            }
+            else
+            {
+                <div class="list-group list-group-flush">
+                    @foreach (var update in Model.ProjectUpdates)
+                    {
+                        <div class="list-group-item px-0">
+                            <div class="d-flex justify-content-between align-items-start gap-3">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1">@update.UpdateTitle</h5>
+                                    <p class="mb-2">@update.UpdateDescription</p>
+                                    <small class="text-muted">
+                                        @(update.User?.Name ?? "Unknown")
+                                        ·
+                                        @update.CreatedDate.ToString("yyyy-MM-dd HH:mm")
+                                    </small>
+                                </div>
+
+                                <div class="d-flex flex-column align-items-end gap-2">
+                                    @if (update.ProgressPercentage.HasValue)
+                                    {
+                                        <span class="badge bg-primary">
+                                            @update.ProgressPercentage.Value.ToString("0")%
+                                        </span>
+                                    }
+
+                                    @if (update.UserID == currentUserId)
+                                    {
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-action="EditUpdate"
+                                               asp-route-id="@update.UpdateID"
+                                               class="btn btn-outline-secondary">
+                                                Edit
+                                            </a>
+                                            <a asp-action="DeleteUpdate"
+                                               asp-route-id="@update.UpdateID"
+                                               class="btn btn-outline-danger">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

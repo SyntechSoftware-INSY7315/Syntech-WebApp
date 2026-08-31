@@ -1,0 +1,50 @@
+﻿@model Syntech.WebApp.Models.Project
+
+@{
+    ViewData["Title"] = "Delete Project";
+}
+
+<div class="container mt-5">
+
+    <div class="mb-4">
+        <h1 class="mb-2">Delete Project</h1>
+        <p class="text-muted mb-0">
+            Confirm permanent deletion of this project.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-danger">
+        <div class="card-body">
+            <div class="alert alert-warning" role="alert">
+                This cannot be undone. Related updates and developer assignments may also be removed depending on database rules.
+            </div>
+
+            <dl class="row mb-4">
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">@Model.ProjectName</dd>
+
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9"><span class="badge bg-secondary">@Model.Status</span></dd>
+
+                <dt class="col-sm-3">Progress</dt>
+                <dd class="col-sm-9">@Model.ProgressPercentage.ToString("0")%</dd>
+
+                <dt class="col-sm-3">Start</dt>
+                <dd class="col-sm-9">@(Model.StartDate?.ToString("yyyy-MM-dd") ?? "—")</dd>
+
+                <dt class="col-sm-3">Deadline</dt>
+                <dd class="col-sm-9">@(Model.Deadline?.ToString("yyyy-MM-dd") ?? "—")</dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ProjectID" />
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger">Delete Project</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
