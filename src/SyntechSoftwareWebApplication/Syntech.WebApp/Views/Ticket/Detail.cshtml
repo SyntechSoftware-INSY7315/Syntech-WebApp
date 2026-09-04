@@ -1,0 +1,342 @@
+@model Syntech.WebApp.Models.Ticket.TicketDetailViewModel
+@{
+    ViewData["Title"] = "Ticket #" + Model.Ticket.TicketId;
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Tickets</a></li>
+        <li class="breadcrumb-item active">Ticket #@Model.Ticket.TicketId</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+    <div>
+        <h2 class="mb-2">@Model.Ticket.Title</h2>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            @if (Model.Ticket.Status == "Open")
+            {
+                <span class="badge bg-primary">Open</span>
+            }
+            else if (Model.Ticket.Status == "InProgress")
+            {
+                <span class="badge bg-warning text-dark">In Progress</span>
+            }
+            else if (Model.Ticket.Status == "Resolved")
+            {
+                <span class="badge bg-success">Resolved</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Closed</span>
+            }
+            @if (Model.Ticket.Priority == "High")
+            {
+                <span class="badge bg-danger">High Priority</span>
+            }
+            else if (Model.Ticket.Priority == "Medium")
+            {
+                <span class="badge bg-warning text-dark">Medium Priority</span>
+            }
+            else
+            {
+                <span class="badge bg-success">Low Priority</span>
+            }
+            <span class="text-muted small">
+                Submitted by <strong>@(Model.Ticket.Client?.Name ?? "Unknown")</strong>
+                &middot; @Model.Ticket.CreatedAt.ToString("dd MMM yyyy, HH:mm")
+            </span>
+        </div>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">&larr; Back</a>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-12 col-lg-8">
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white border-bottom fw-semibold">Description</div>
+            <div class="card-body" style="white-space: pre-wrap;">@Model.Ticket.Description</div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">Conversation History</span>
+                <span class="badge bg-light text-muted border">
+                    @Model.Replies.Count @(Model.Replies.Count == 1 ? "reply" : "replies")
+                </span>
+            </div>
+            <div class="card-body p-0">
+
+                @if (!Model.Replies.Any())
+                {
+                    <div class="text-center text-muted py-4">No replies yet.</div>
+                }
+
+                @foreach (var reply in Model.Replies)
+                {
+                    @if (reply.Author?.Role != "Client")
+                    {
+                        <div class="d-flex gap-3 p-3 border-bottom bg-light">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0"
+                                 style="width:38px;height:38px;font-weight:700;font-size:.9rem;">
+                                @(reply.Author?.Name?.Length > 0 ? reply.Author.Name.Substring(0, 1).ToUpper() : "?")
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                                    <strong class="small">@(reply.Author?.Name ?? "Unknown")</strong>
+                                    <span class="badge bg-light text-muted border small">@(reply.Author?.Role ?? "")</span>
+                                    <span class="text-muted small ms-auto">@reply.CreatedAt.ToString("dd MMM yyyy, HH:mm")</span>
+                                </div>
+                                <div style="white-space: pre-wrap; font-size: .9rem;">@reply.Message</div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex gap-3 p-3 border-bottom bg-white">
+                            <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center flex-shrink-0"
+                                 style="width:38px;height:38px;font-weight:700;font-size:.9rem;">
+                                @(reply.Author?.Name?.Length > 0 ? reply.Author.Name.Substring(0, 1).ToUpper() : "?")
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                                    <strong class="small">@(reply.Author?.Name ?? "Unknown")</strong>
+                                    <span class="badge bg-light text-muted border small">Client</span>
+                                    <span class="text-muted small ms-auto">@reply.CreatedAt.ToString("dd MMM yyyy, HH:mm")</span>
+                                </div>
+                                <div style="white-space: pre-wrap; font-size: .9rem;">@reply.Message</div>
+                            </div>
+                        </div>
+                    }
+                }
+
+                @if (Model.Ticket.Status != "Closed")
+                {
+                    <div class="p-3 border-top">
+                        <p class="fw-semibold mb-2">Add Reply</p>
+                        <form asp-action="Reply" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="ticketId" value="@Model.Ticket.TicketId" />
+                            <div class="mb-2">
+                                <textarea name="message" class="form-control" rows="4"
+                                          placeholder="Type your reply here..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Send Reply</button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info m-3">
+                        This ticket is closed. No further replies can be added.
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-12 col-lg-4">
+
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-header bg-white border-bottom fw-semibold">Ticket Details</div>
+            <div class="card-body">
+                <dl class="row mb-0 small">
+                    <dt class="col-5 text-muted">Status</dt>
+                    <dd class="col-7">
+                        @if (Model.Ticket.Status == "Open")
+                        {
+                            <span class="badge bg-primary">Open</span>
+                        }
+                        else if (Model.Ticket.Status == "InProgress")
+                        {
+                            <span class="badge bg-warning text-dark">In Progress</span>
+                        }
+                        else if (Model.Ticket.Status == "Resolved")
+                        {
+                            <span class="badge bg-success">Resolved</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Closed</span>
+                        }
+                    </dd>
+                    <dt class="col-5 text-muted">Priority</dt>
+                    <dd class="col-7">
+                        @if (Model.Ticket.Priority == "High")
+                        {
+                            <span class="badge bg-danger">High</span>
+                        }
+                        else if (Model.Ticket.Priority == "Medium")
+                        {
+                            <span class="badge bg-warning text-dark">Medium</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Low</span>
+                        }
+                    </dd>
+                    <dt class="col-5 text-muted">Submitted By</dt>
+                    <dd class="col-7">@(Model.Ticket.Client?.Name ?? "—")</dd>
+                    <dt class="col-5 text-muted">Assigned To</dt>
+                    <dd class="col-7">@(Model.Ticket.AssignedDeveloper?.Name ?? "Unassigned")</dd>
+                    <dt class="col-5 text-muted">Created</dt>
+                    <dd class="col-7">@Model.Ticket.CreatedAt.ToString("dd MMM yyyy")</dd>
+                    <dt class="col-5 text-muted">Updated</dt>
+                </dl>
+            </div>
+        </div>
+
+        @if (User.IsInRole("Admin") || User.IsInRole("Developer"))
+        {
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header bg-white border-bottom fw-semibold">Update Status</div>
+                <div class="card-body">
+                    <form asp-action="UpdateStatus" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Ticket.TicketId" />
+                        <div class="mb-2">
+                            <select name="status" class="form-select form-select-sm">
+                                @if (Model.Ticket.Status == "Open")
+                                {
+                                    <option value="Open" selected="selected">Open</option>
+                                }
+                                else
+                                {
+                                    <option value="Open">Open</option>
+                                }
+                                @if (Model.Ticket.Status == "InProgress")
+                                {
+                                    <option value="InProgress" selected="selected">In Progress</option>
+                                }
+                                else
+                                {
+                                    <option value="InProgress">In Progress</option>
+                                }
+                                @if (Model.Ticket.Status == "Resolved")
+                                {
+                                    <option value="Resolved" selected="selected">Resolved</option>
+                                }
+                                else
+                                {
+                                    <option value="Resolved">Resolved</option>
+                                }
+                                @if (Model.Ticket.Status == "Closed")
+                                {
+                                    <option value="Closed" selected="selected">Closed</option>
+                                }
+                                else
+                                {
+                                    <option value="Closed">Closed</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Update Status</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header bg-white border-bottom fw-semibold">Assign Developer</div>
+                <div class="card-body">
+                    <form asp-action="Assign" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Ticket.TicketId" />
+                        <div class="mb-2">
+                            <select name="developerId" class="form-select form-select-sm">
+                                <option value="">— Select Developer —</option>
+                                @foreach (var dev in Model.Developers)
+                                {
+                                    @if (Model.Ticket.AssignedDeveloperId.HasValue &&
+                                         Model.Ticket.AssignedDeveloperId.Value.ToString() == dev.Value)
+                                    {
+                                        <option value="@dev.Value" selected="selected">@dev.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@dev.Value">@dev.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Assign</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header bg-white border-bottom fw-semibold">Update Priority</div>
+                <div class="card-body">
+                    <form asp-action="UpdatePriority" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Ticket.TicketId" />
+                        <div class="mb-2">
+                            <select name="priority" class="form-select form-select-sm">
+                                @if (Model.Ticket.Priority == "Low")
+                                {
+                                    <option value="Low" selected="selected">Low</option>
+                                }
+                                else
+                                {
+                                    <option value="Low">Low</option>
+                                }
+                                @if (Model.Ticket.Priority == "Medium")
+                                {
+                                    <option value="Medium" selected="selected">Medium</option>
+                                }
+                                else
+                                {
+                                    <option value="Medium">Medium</option>
+                                }
+                                @if (Model.Ticket.Priority == "High")
+                                {
+                                    <option value="High" selected="selected">High</option>
+                                }
+                                else
+                                {
+                                    <option value="High">High</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Update Priority</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card border-danger shadow-sm">
+                <div class="card-header bg-white border-bottom fw-semibold text-danger">Danger Zone</div>
+                <div class="card-body">
+                    <form asp-action="Delete" method="post"
+                          onsubmit="return confirm('Permanently delete this ticket and all its replies?')">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Ticket.TicketId" />
+                        <button type="submit" class="btn btn-danger btn-sm w-100">Delete Ticket</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

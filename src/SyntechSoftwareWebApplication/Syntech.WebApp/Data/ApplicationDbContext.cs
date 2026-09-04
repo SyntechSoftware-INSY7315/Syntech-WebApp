@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Syntech.WebApp.Models;
+using Syntech.WebApp.Models.Ticket;
 
 namespace Syntech.WebApp.Data
 {
@@ -60,9 +61,14 @@ namespace Syntech.WebApp.Data
         /// Builder used to configure Entity Framework's database model.
         /// </param>
 
+        public DbSet<DeveloperProject> DeveloperProjects { get; set; }
+
+        public DbSet<SupportTicket> SupportTickets { get; set; }
+        public DbSet<TicketReply> TicketReplies { get; set; }
+
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectUpdate> ProjectUpdates { get; set; }
-        public DbSet<DeveloperProject> DeveloperProjects { get; set; }
+
 
         protected override void OnModelCreating(
             ModelBuilder modelBuilder)
@@ -243,6 +249,34 @@ namespace Syntech.WebApp.Data
                     .WithMany()
                     .HasForeignKey(dp => dp.DeveloperID);
             });
+
+            modelBuilder.Entity<SupportTicket>(entity =>
+            {
+                entity.HasOne(t => t.Client)
+                    .WithMany()
+                    .HasForeignKey(t => t.ClientId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(t => t.AssignedDeveloper)
+                    .WithMany()
+                    .HasForeignKey(t => t.AssignedDeveloperId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            modelBuilder.Entity<TicketReply>(entity =>
+            {
+                entity.HasOne(r => r.SupportTicket)
+                    .WithMany(t => t.Replies)
+                    .HasForeignKey(r => r.TicketId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(r => r.Author)
+                    .WithMany()
+                    .HasForeignKey(r => r.AuthorId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
         }
+
+
     }
 }
