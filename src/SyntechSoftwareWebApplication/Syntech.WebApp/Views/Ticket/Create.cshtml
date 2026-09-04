@@ -1,0 +1,73 @@
+@model Syntech.WebApp.Models.Ticket.CreateTicketViewModel
+@{
+    ViewData["Title"] = "New Support Ticket";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1">New Support Ticket</h2>
+        <p class="text-muted mb-0">Describe your issue and our team will respond as soon as possible.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Back to Tickets</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+
+                <form asp-action="Create" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label fw-semibold">
+                            Subject <span class="text-danger">*</span>
+                        </label>
+                        <input asp-for="Title" class="form-control" placeholder="Briefly describe the issue" maxlength="150" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                        <div class="form-text">Be specific — a clear subject helps us respond faster.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Priority</label>
+                        <div class="d-flex gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" asp-for="Priority" value="Low" id="priority_Low" />
+                                <label class="form-check-label" for="priority_Low">Low</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" asp-for="Priority" value="Medium" id="priority_Medium" />
+                                <label class="form-check-label" for="priority_Medium">Medium</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" asp-for="Priority" value="High" id="priority_High" />
+                                <label class="form-check-label" for="priority_High">High</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Description" class="form-label fw-semibold">
+                            Description <span class="text-danger">*</span>
+                        </label>
+                        <textarea asp-for="Description" class="form-control" rows="8"
+                                  placeholder="Describe the issue in detail. Include steps to reproduce, what you expected, and what actually happened."></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
