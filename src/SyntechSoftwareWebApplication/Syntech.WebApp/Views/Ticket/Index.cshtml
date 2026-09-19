@@ -1,0 +1,276 @@
+@model Syntech.WebApp.Models.Ticket.TicketListViewModel
+@{
+    ViewData["Title"] = "Support Tickets";
+}
+
+<div class="tk-header">
+    <div>
+        <h2>Support Tickets</h2>
+        <p>
+            @if (User.IsInRole("Admin"))
+            {
+                <span>All tickets across the platform.</span>
+            }
+            else if (User.IsInRole("Developer"))
+            {
+                <span>Tickets assigned to you.</span>
+            }
+            else
+            {
+                <span>Your submitted support requests.</span>
+            }
+        </p>
+    </div>
+    @if (User.IsInRole("Client"))
+    {
+        <a asp-action="Create" class="btn btn-primary">+ New Ticket</a>
+    }
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="tk-stats">
+    <div class="tk-stat tk-stat--open">
+        <div class="tk-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg>
+        </div>
+        <div>
+            <div class="tk-stat-num">@Model.OpenCount</div>
+            <div class="tk-stat-label">Open</div>
+        </div>
+    </div>
+    <div class="tk-stat tk-stat--progress">
+        <div class="tk-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+        </div>
+        <div>
+            <div class="tk-stat-num">@Model.InProgressCount</div>
+            <div class="tk-stat-label">In Progress</div>
+        </div>
+    </div>
+    <div class="tk-stat tk-stat--resolved">
+        <div class="tk-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+        </div>
+        <div>
+            <div class="tk-stat-num">@Model.ResolvedCount</div>
+            <div class="tk-stat-label">Resolved</div>
+        </div>
+    </div>
+    <div class="tk-stat tk-stat--closed">
+        <div class="tk-stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1" /><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8" /><path d="M10 12h4" /></svg>
+        </div>
+        <div>
+            <div class="tk-stat-num">@Model.ClosedCount</div>
+            <div class="tk-stat-label">Closed</div>
+        </div>
+    </div>
+</div>
+
+<div class="tk-panel tk-filters">
+    <div class="tk-panel-body">
+        <form method="get" asp-action="Index" class="row g-3 align-items-end">
+            <div class="col-12 col-md-5">
+                <label class="form-label">Search</label>
+                <div class="tk-search-wrap">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+                    <input type="text" name="search" value="@Model.SearchTerm" class="form-control" placeholder="Search by title or client name..." />
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="">All</option>
+                    @if (Model.StatusFilter == "Open")
+                    {
+                        <option value="Open" selected="selected">Open</option>
+                    }
+                    else
+                    {
+                        <option value="Open">Open</option>
+                    }
+                    @if (Model.StatusFilter == "InProgress")
+                    {
+                        <option value="InProgress" selected="selected">In Progress</option>
+                    }
+                    else
+                    {
+                        <option value="InProgress">In Progress</option>
+                    }
+                    @if (Model.StatusFilter == "Resolved")
+                    {
+                        <option value="Resolved" selected="selected">Resolved</option>
+                    }
+                    else
+                    {
+                        <option value="Resolved">Resolved</option>
+                    }
+                    @if (Model.StatusFilter == "Closed")
+                    {
+                        <option value="Closed" selected="selected">Closed</option>
+                    }
+                    else
+                    {
+                        <option value="Closed">Closed</option>
+                    }
+                </select>
+            </div>
+            <div class="col-6 col-md-2">
+                <label class="form-label">Priority</label>
+                <select name="priority" class="form-select">
+                    <option value="">All</option>
+                    @if (Model.PriorityFilter == "Low")
+                    {
+                        <option value="Low" selected="selected">Low</option>
+                    }
+                    else
+                    {
+                        <option value="Low">Low</option>
+                    }
+                    @if (Model.PriorityFilter == "Medium")
+                    {
+                        <option value="Medium" selected="selected">Medium</option>
+                    }
+                    else
+                    {
+                        <option value="Medium">Medium</option>
+                    }
+                    @if (Model.PriorityFilter == "High")
+                    {
+                        <option value="High" selected="selected">High</option>
+                    }
+                    else
+                    {
+                        <option value="High">High</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary flex-grow-1">Filter</button>
+                <a asp-action="Index" class="btn btn-outline-secondary flex-grow-1">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (!Model.Tickets.Any())
+{
+    <div class="tk-panel">
+        <div class="tk-empty">
+            <div class="tk-empty-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+            </div>
+            <h4>No tickets found</h4>
+            <p>
+                @if (User.IsInRole("Client"))
+                {
+                    <span>You haven't submitted any support requests yet.</span>
+                }
+                else
+                {
+                    <span>Nothing matches your current filters.</span>
+                }
+            </p>
+            @if (User.IsInRole("Client"))
+            {
+                <a asp-action="Create" class="btn btn-primary">Submit Your First Ticket</a>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="tk-panel">
+        <div class="table-responsive">
+            <table class="table tk-table align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        @if (!User.IsInRole("Client"))
+                        {
+                            <th>Client</th>
+                        }
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th class="tk-col-opt">Assigned To</th>
+                        <th class="tk-col-opt">Created</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Model.Tickets)
+                    {
+                        <tr>
+                            <td class="tk-id">#@ticket.TicketId</td>
+                            <td>
+                                <a asp-action="Detail" asp-route-id="@ticket.TicketId" class="tk-title-link">
+                                    @ticket.Title
+                                </a>
+                            </td>
+                            @if (!User.IsInRole("Client"))
+                            {
+                                <td class="tk-muted-cell">@(ticket.Client?.Name ?? "—")</td>
+                            }
+                            <td>
+                                @if (ticket.Priority == "High")
+                                {
+                                    <span class="tk-pill tk-pill--high">High</span>
+                                }
+                                else if (ticket.Priority == "Medium")
+                                {
+                                    <span class="tk-pill tk-pill--medium">Medium</span>
+                                }
+                                else
+                                {
+                                    <span class="tk-pill tk-pill--low">Low</span>
+                                }
+                            </td>
+                            <td>
+                                @if (ticket.Status == "Open")
+                                {
+                                    <span class="tk-pill tk-pill--open">Open</span>
+                                }
+                                else if (ticket.Status == "InProgress")
+                                {
+                                    <span class="tk-pill tk-pill--progress">In Progress</span>
+                                }
+                                else if (ticket.Status == "Resolved")
+                                {
+                                    <span class="tk-pill tk-pill--resolved">Resolved</span>
+                                }
+                                else
+                                {
+                                    <span class="tk-pill tk-pill--closed">Closed</span>
+                                }
+                            </td>
+                            <td class="tk-muted-cell tk-col-opt">@(ticket.AssignedDeveloper?.Name ?? "—")</td>
+                            <td class="tk-date tk-col-opt">@ticket.CreatedAt.ToString("dd MMM yyyy")</td>
+                            <td>
+                                <a asp-action="Detail" asp-route-id="@ticket.TicketId"
+                                   class="btn btn-outline-primary btn-sm">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

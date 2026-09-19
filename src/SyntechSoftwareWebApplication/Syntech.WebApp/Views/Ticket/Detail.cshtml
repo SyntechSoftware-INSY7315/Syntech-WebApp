@@ -1,0 +1,399 @@
+@model Syntech.WebApp.Models.Ticket.TicketDetailViewModel
+@{
+    ViewData["Title"] = "Ticket #" + Model.Ticket.TicketId;
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="tk-crumb">
+    <a asp-action="Index">Tickets</a> &rsaquo; <span>Ticket #@Model.Ticket.TicketId</span>
+</div>
+
+<div class="tk-detail-head">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+        <div class="flex-grow-1">
+            <h2>@Model.Ticket.Title</h2>
+            <div class="tk-meta-row">
+                @if (Model.Ticket.Status == "Open")
+                {
+                    <span class="tk-pill tk-pill--open">Open</span>
+                }
+                else if (Model.Ticket.Status == "InProgress")
+                {
+                    <span class="tk-pill tk-pill--progress">In Progress</span>
+                }
+                else if (Model.Ticket.Status == "Resolved")
+                {
+                    <span class="tk-pill tk-pill--resolved">Resolved</span>
+                }
+                else
+                {
+                    <span class="tk-pill tk-pill--closed">Closed</span>
+                }
+                @if (Model.Ticket.Priority == "High")
+                {
+                    <span class="tk-pill tk-pill--high">High Priority</span>
+                }
+                else if (Model.Ticket.Priority == "Medium")
+                {
+                    <span class="tk-pill tk-pill--medium">Medium Priority</span>
+                }
+                else
+                {
+                    <span class="tk-pill tk-pill--low">Low Priority</span>
+                }
+                <span class="tk-meta-text">
+                    Submitted by <strong>@(Model.Ticket.Client?.Name ?? "Unknown")</strong>
+                    &middot; @Model.Ticket.CreatedAt.ToString("dd MMM yyyy, HH:mm")
+                </span>
+            </div>
+
+            @{
+                var statusOrder = new[] { "Open", "InProgress", "Resolved", "Closed" };
+                var currentIndex = Array.IndexOf(statusOrder, Model.Ticket.Status);
+            }
+            <div class="tk-stepper">
+                @for (var i = 0; i < statusOrder.Length; i++)
+                {
+                    var label = statusOrder[i] == "InProgress" ? "In Progress" : statusOrder[i];
+                    var stepClass = i < currentIndex ? "tk-step--done" : i == currentIndex ? "tk-step--current" : "";
+                    <div class="tk-step @stepClass">
+                        <span class="tk-step-line"></span>
+                        <span class="tk-step-circle">
+                            @if (i < currentIndex)
+                            {
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                            }
+                            else
+                            {
+                                @(i + 1)
+                            }
+                        </span>
+                        <span class="tk-step-label">@label</span>
+                    </div>
+                }
+            </div>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">&larr; Back</a>
+    </div>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-12 col-lg-8">
+
+        <div class="tk-panel mb-4">
+            <div class="tk-panel-head">
+                <span class="tk-panel-title">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
+                    Description
+                </span>
+            </div>
+            <div class="tk-panel-body">
+                <div class="tk-desc">@Model.Ticket.Description</div>
+            </div>
+        </div>
+
+        <div class="tk-panel">
+            <div class="tk-panel-head">
+                <span class="tk-panel-title">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+                    Conversation History
+                </span>
+                <span class="tk-role-chip">
+                    @Model.Replies.Count @(Model.Replies.Count == 1 ? "reply" : "replies")
+                </span>
+            </div>
+
+            @if (!Model.Replies.Any())
+            {
+                <div class="tk-empty" style="padding: 40px 24px;">
+                    <p class="mb-0">No replies yet.</p>
+                </div>
+            }
+
+            @foreach (var reply in Model.Replies)
+            {
+                @if (reply.Author?.Role != "Client")
+                {
+                    <div class="tk-reply tk-reply--staff">
+                        <div class="tk-avatar tk-avatar--staff">
+                            @(reply.Author?.Name?.Length > 0 ? reply.Author.Name.Substring(0, 1).ToUpper() : "?")
+                        </div>
+                        <div class="tk-reply-body">
+                            <div class="tk-reply-head">
+                                <span class="tk-reply-author">@(reply.Author?.Name ?? "Unknown")</span>
+                                <span class="tk-role-chip">@(reply.Author?.Role ?? "")</span>
+                                <span class="tk-reply-time">@reply.CreatedAt.ToString("dd MMM yyyy, HH:mm")</span>
+                            </div>
+                            <div class="tk-reply-msg">@reply.Message</div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="tk-reply tk-reply--client">
+                        <div class="tk-avatar tk-avatar--client">
+                            @(reply.Author?.Name?.Length > 0 ? reply.Author.Name.Substring(0, 1).ToUpper() : "?")
+                        </div>
+                        <div class="tk-reply-body">
+                            <div class="tk-reply-head">
+                                <span class="tk-reply-author">@(reply.Author?.Name ?? "Unknown")</span>
+                                <span class="tk-role-chip">Client</span>
+                                <span class="tk-reply-time">@reply.CreatedAt.ToString("dd MMM yyyy, HH:mm")</span>
+                            </div>
+                            <div class="tk-reply-msg">@reply.Message</div>
+                        </div>
+                    </div>
+                }
+            }
+
+            @if (Model.Ticket.Status != "Closed")
+            {
+                <div class="tk-reply-form">
+                    <div class="tk-form-title">Add Reply</div>
+                    <form asp-action="Reply" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Ticket.TicketId" />
+                        <div class="mb-3">
+                            <textarea name="message" class="form-control" rows="4"
+                                      placeholder="Type your reply here..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Send Reply</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="tk-closed-note">
+                    This ticket is closed. No further replies can be added.
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-lg-4">
+
+        <div class="tk-panel tk-side-card">
+            <div class="tk-panel-head">
+                <span class="tk-panel-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+                    Ticket Details
+                </span>
+            </div>
+            <div class="tk-panel-body">
+                <dl class="tk-dl">
+                    <dt>Status</dt>
+                    <dd>
+                        @if (Model.Ticket.Status == "Open")
+                        {
+                            <span class="tk-pill tk-pill--open">Open</span>
+                        }
+                        else if (Model.Ticket.Status == "InProgress")
+                        {
+                            <span class="tk-pill tk-pill--progress">In Progress</span>
+                        }
+                        else if (Model.Ticket.Status == "Resolved")
+                        {
+                            <span class="tk-pill tk-pill--resolved">Resolved</span>
+                        }
+                        else
+                        {
+                            <span class="tk-pill tk-pill--closed">Closed</span>
+                        }
+                    </dd>
+                    <dt>Priority</dt>
+                    <dd>
+                        @if (Model.Ticket.Priority == "High")
+                        {
+                            <span class="tk-pill tk-pill--high">High</span>
+                        }
+                        else if (Model.Ticket.Priority == "Medium")
+                        {
+                            <span class="tk-pill tk-pill--medium">Medium</span>
+                        }
+                        else
+                        {
+                            <span class="tk-pill tk-pill--low">Low</span>
+                        }
+                    </dd>
+                    <dt>Submitted By</dt>
+                    <dd>@(Model.Ticket.Client?.Name ?? "—")</dd>
+                    <dt>Assigned To</dt>
+                    <dd>@(Model.Ticket.AssignedDeveloper?.Name ?? "Unassigned")</dd>
+                    <dt>Created</dt>
+                    <dd>@Model.Ticket.CreatedAt.ToString("dd MMM yyyy")</dd>
+                </dl>
+            </div>
+        </div>
+
+        @if (User.IsInRole("Admin") || User.IsInRole("Developer"))
+        {
+            <div class="tk-panel tk-side-card">
+                <div class="tk-panel-head">
+                    <span class="tk-panel-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10" /><polyline points="23 20 23 14 17 14" /><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15" /></svg>
+                        Update Status
+                    </span>
+                </div>
+                <div class="tk-panel-body">
+                    <form asp-action="UpdateStatus" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Ticket.TicketId" />
+                        <div class="mb-3">
+                            <select name="status" class="form-select form-select-sm">
+                                @if (Model.Ticket.Status == "Open")
+                                {
+                                    <option value="Open" selected="selected">Open</option>
+                                }
+                                else
+                                {
+                                    <option value="Open">Open</option>
+                                }
+                                @if (Model.Ticket.Status == "InProgress")
+                                {
+                                    <option value="InProgress" selected="selected">In Progress</option>
+                                }
+                                else
+                                {
+                                    <option value="InProgress">In Progress</option>
+                                }
+                                @if (Model.Ticket.Status == "Resolved")
+                                {
+                                    <option value="Resolved" selected="selected">Resolved</option>
+                                }
+                                else
+                                {
+                                    <option value="Resolved">Resolved</option>
+                                }
+                                @if (Model.Ticket.Status == "Closed")
+                                {
+                                    <option value="Closed" selected="selected">Closed</option>
+                                }
+                                else
+                                {
+                                    <option value="Closed">Closed</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Update Status</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="tk-panel tk-side-card">
+                <div class="tk-panel-head">
+                    <span class="tk-panel-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="8.5" cy="7" r="4" /><line x1="20" y1="8" x2="20" y2="14" /><line x1="23" y1="11" x2="17" y2="11" /></svg>
+                        Assign Developer
+                    </span>
+                </div>
+                <div class="tk-panel-body">
+                    <form asp-action="Assign" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Ticket.TicketId" />
+                        <div class="mb-3">
+                            <select name="developerId" class="form-select form-select-sm">
+                                <option value="">— Select Developer —</option>
+                                @foreach (var dev in Model.Developers)
+                                {
+                                    @if (Model.Ticket.AssignedDeveloperId.HasValue &&
+                                         Model.Ticket.AssignedDeveloperId.Value.ToString() == dev.Value)
+                                    {
+                                        <option value="@dev.Value" selected="selected">@dev.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@dev.Value">@dev.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Assign</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tk-panel tk-side-card">
+                <div class="tk-panel-head">
+                    <span class="tk-panel-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" /><line x1="4" y1="22" x2="4" y2="15" /></svg>
+                        Update Priority
+                    </span>
+                </div>
+                <div class="tk-panel-body">
+                    <form asp-action="UpdatePriority" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Ticket.TicketId" />
+                        <div class="mb-3">
+                            <select name="priority" class="form-select form-select-sm">
+                                @if (Model.Ticket.Priority == "Low")
+                                {
+                                    <option value="Low" selected="selected">Low</option>
+                                }
+                                else
+                                {
+                                    <option value="Low">Low</option>
+                                }
+                                @if (Model.Ticket.Priority == "Medium")
+                                {
+                                    <option value="Medium" selected="selected">Medium</option>
+                                }
+                                else
+                                {
+                                    <option value="Medium">Medium</option>
+                                }
+                                @if (Model.Ticket.Priority == "High")
+                                {
+                                    <option value="High" selected="selected">High</option>
+                                }
+                                else
+                                {
+                                    <option value="High">High</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100">Update Priority</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tk-panel tk-side-card tk-danger-card">
+                <div class="tk-panel-head">
+                    <span class="tk-panel-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+                        Danger Zone
+                    </span>
+                </div>
+                <div class="tk-panel-body">
+                    <form asp-action="Delete" method="post"
+                          onsubmit="return confirm('Permanently delete this ticket and all its replies?')">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Ticket.TicketId" />
+                        <button type="submit" class="btn btn-danger btn-sm w-100">Delete Ticket</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

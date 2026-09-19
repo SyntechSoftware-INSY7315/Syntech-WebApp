@@ -1,0 +1,78 @@
+@model Syntech.WebApp.Models.Ticket.CreateTicketViewModel
+@{
+    ViewData["Title"] = "New Support Ticket";
+}
+
+<div class="tk-crumb">
+    <a asp-action="Index">Tickets</a> &rsaquo; <span>New Ticket</span>
+</div>
+
+<div class="tk-header">
+    <div>
+        <h2>New Support Ticket</h2>
+        <p>Describe your issue and our team will respond as soon as possible.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Back to Tickets</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="tk-panel">
+            <div class="tk-panel-body">
+
+                <form asp-action="Create" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-4">
+                        <label asp-for="Title" class="tk-form-label">
+                            Subject <span class="tk-req">*</span>
+                        </label>
+                        <input asp-for="Title" class="form-control" placeholder="Briefly describe the issue" maxlength="150" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                        <div class="tk-hint">Be specific — a clear subject helps us respond faster.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="tk-form-label">Priority</label>
+                        <div class="tk-priority-group">
+                            <div class="tk-priority-opt">
+                                <input type="radio" asp-for="Priority" value="Low" id="priority_Low" />
+                                <label for="priority_Low">Low</label>
+                            </div>
+                            <div class="tk-priority-opt">
+                                <input type="radio" asp-for="Priority" value="Medium" id="priority_Medium" />
+                                <label for="priority_Medium">Medium</label>
+                            </div>
+                            <div class="tk-priority-opt">
+                                <input type="radio" asp-for="Priority" value="High" id="priority_High" />
+                                <label for="priority_High">High</label>
+                            </div>
+                        </div>
+                        <div class="tk-hint">Choose High only for issues blocking your work.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Description" class="tk-form-label">
+                            Description <span class="tk-req">*</span>
+                        </label>
+                        <textarea asp-for="Description" class="form-control" rows="8"
+                                  placeholder="Describe the issue in detail. Include steps to reproduce, what you expected, and what actually happened."></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
