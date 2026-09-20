@@ -1,0 +1,288 @@
+﻿@using System.Security.Claims
+@model IEnumerable<Syntech.WebApp.Models.Document>
+
+@{
+ViewData["Title"] = "Project Documents";
+}
+
+<div class="container mt-4 mb-5">
+
+        <!-- Back Navigation -->
+    <div class="document-back-navigation">
+
+        <a asp-controller="Document"
+           asp-action="Manage"
+           class="document-back-btn">
+
+            <i class="bi bi-arrow-left"></i>
+            <span>Back</span>
+
+        </a>
+
+    </div>
+
+<!-- Page Header -->
+<div class="document-page-header">
+
+    <div>
+        <div class="document-page-title">
+            <div class="document-title-icon">
+                <i class="bi bi-folder2-open"></i>
+            </div>
+
+            <div>
+                <h2 class="mb-1">Project Documents</h2>
+
+                <p class="text-muted mb-0">
+                    Documents for:
+                    <strong>@ViewBag.ProjectName</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <a asp-controller="Document"
+       asp-action="Upload"
+       asp-route-projectId="@ViewBag.ProjectID"
+       class="btn syntech-primary-btn">
+
+        <i class="bi bi-cloud-arrow-up me-2"></i>
+        Upload Document
+
+    </a>
+
+</div>
+
+
+<!-- Success Message -->
+@if (TempData["Success"] != null)
+{
+    <div class="alert syntech-success-alert d-flex align-items-center"
+         role="alert">
+
+        <i class="bi bi-check-circle-fill me-2"></i>
+
+        <div>
+            @TempData["Success"]
+        </div>
+
+    </div>
+}
+
+
+<!-- Document List -->
+<div class="document-card">
+
+    <div class="document-card-header">
+
+        <div>
+            <h5 class="mb-1">Documents</h5>
+
+            <p class="text-muted mb-0">
+                Files uploaded to this project
+            </p>
+        </div>
+
+        @if (Model.Any())
+        {
+            <span class="document-count">
+                @Model.Count() @(Model.Count() == 1 ? "document" : "documents")
+            </span>
+        }
+
+    </div>
+
+
+    @if (!Model.Any())
+    {
+        <div class="document-empty-state">
+
+            <div class="document-empty-icon">
+                <i class="bi bi-folder2"></i>
+            </div>
+
+            <h5>No Documents Yet</h5>
+
+            <p class="text-muted">
+                No documents have been uploaded for this project yet.
+            </p>
+
+            <a asp-controller="Document"
+               asp-action="Upload"
+               asp-route-projectId="@ViewBag.ProjectID"
+               class="btn syntech-primary-btn">
+
+                <i class="bi bi-cloud-arrow-up me-2"></i>
+                Upload First Document
+
+            </a>
+
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+
+            <table class="table syntech-document-table align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            File Name
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Uploaded By
+                        </th>
+
+                        <th>
+                            Upload Date
+                        </th>
+
+                        <th>
+                            File Size
+                        </th>
+
+                        <th class="text-end">
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var document in Model)
+                    {
+                        <tr>
+
+                            <td>
+
+                                <div class="document-file-name">
+
+                                    <div class="document-file-icon">
+                                        <i class="bi bi-file-earmark"></i>
+                                    </div>
+
+                                    <span>
+                                        @document.OriginalFileName
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="document-category">
+                                    @document.Category
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="document-user">
+                                    <i class="bi bi-person me-1"></i>
+                                    @document.Uploader?.Name
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="document-date">
+                                    <i class="bi bi-calendar3 me-1"></i>
+
+                                    @document.UploadDate?.ToString(
+                                        "dd/MM/yyyy HH:mm")
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                @if (document.FileSize.HasValue)
+                                {
+                                    <span class="document-size">
+                                        @($"{document.FileSize.Value / 1024.0:F2} KB")
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        N/A
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="document-actions">
+
+                                    <a asp-controller="Document"
+                                       asp-action="Download"
+                                       asp-route-id="@document.DocumentID"
+                                       class="btn btn-sm syntech-download-btn">
+
+                                        <i class="bi bi-download me-1"></i>
+                                        Download
+
+                                    </a>
+
+
+                                    @if (User.IsInRole("Admin") ||
+                                         (User.IsInRole("Developer") &&
+                                          document.UploadedBy.ToString() ==
+                                          User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                                    {
+                                        <form asp-controller="Document"
+                                              asp-action="Delete"
+                                              asp-route-id="@document.DocumentID"
+                                              method="post"
+                                              class="d-inline"
+                                              onsubmit="return confirm('Are you sure you want to delete this document?');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="btn btn-sm syntech-delete-btn">
+
+                                                <i class="bi bi-trash me-1"></i>
+                                                Delete
+
+                                            </button>
+
+                                        </form>
+                                    }
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+
+</div>
+
+</div>

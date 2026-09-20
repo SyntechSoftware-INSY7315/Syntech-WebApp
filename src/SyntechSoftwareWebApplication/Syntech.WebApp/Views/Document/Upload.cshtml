@@ -1,0 +1,160 @@
+﻿@model Syntech.WebApp.Models.DocumentUploadViewModel
+
+@{
+ViewData["Title"] = "Upload Document";
+}
+
+<div class="container mt-4 mb-5">
+
+<!-- Page Header -->
+<div class="document-page-heading">
+
+    <div class="document-title-icon">
+        <i class="bi bi-cloud-arrow-up"></i>
+    </div>
+
+    <div>
+        <h2 class="mb-1">Upload Document</h2>
+
+        <p class="text-muted mb-0">
+            Add a document to this project.
+        </p>
+    </div>
+
+</div>
+
+
+<!-- Upload Card -->
+<div class="document-upload-card">
+
+    <div class="document-upload-header">
+
+        <h5 class="mb-1">
+            Document Details
+        </h5>
+
+        <p class="text-muted mb-0">
+            Select a category and choose the file you want to upload.
+        </p>
+
+    </div>
+
+
+    <div class="document-upload-body">
+
+        <form asp-action="Upload"
+              asp-controller="Document"
+              method="post"
+              enctype="multipart/form-data">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   asp-for="ProjectID" />
+
+
+            <!-- Category -->
+            <div class="mb-4">
+
+                <label asp-for="Category"
+                       class="form-label syntech-form-label">
+
+                    Category
+
+                </label>
+
+                <select asp-for="Category"
+                        class="form-select syntech-form-control">
+
+                    <option value="">
+                        -- Select Category --
+                    </option>
+
+                    @foreach (string category in
+                             ViewBag.AllowedCategories)
+                    {
+                        <option value="@category">
+                            @category
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="Category"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- File -->
+            <div class="mb-4">
+
+                <label asp-for="File"
+                       class="form-label syntech-form-label">
+
+                    Select File
+
+                </label>
+
+                <div class="syntech-file-wrapper">
+
+                    <input asp-for="File"
+                           type="file"
+                           class="form-control syntech-form-control"
+                           accept=".pdf,.docx,.doc,.xlsx,.png,.jpg,.zip" />
+
+                </div>
+
+                <div class="syntech-file-help">
+
+                    <i class="bi bi-info-circle me-1"></i>
+
+                    Allowed file types:
+                    PDF, DOCX, DOC, XLSX, PNG, JPG and ZIP.
+
+                </div>
+
+                <span asp-validation-for="File"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="document-upload-actions">
+
+                <button type="submit"
+                        class="btn syntech-primary-btn">
+
+                    <i class="bi bi-cloud-arrow-up me-2"></i>
+                    Upload Document
+
+                </button>
+
+                <a asp-controller="Document"
+                   asp-action="Index"
+                   asp-route-projectId="@ViewBag.ProjectID"
+                   class="btn syntech-cancel-btn">
+
+                    <i class="bi bi-x-lg me-2"></i>
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</div>
+
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
