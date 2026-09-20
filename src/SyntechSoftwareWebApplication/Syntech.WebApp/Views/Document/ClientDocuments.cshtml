@@ -1,0 +1,132 @@
+﻿@model IEnumerable<Syntech.WebApp.Models.Project>
+
+@{
+ViewData["Title"] = "Document Management";
+}
+
+<div class="container mt-4 mb-5">
+
+<!-- Page Header -->
+<div class="document-page-heading">
+
+    <div class="document-title-icon">
+        <i class="bi bi-folder2-open"></i>
+    </div>
+
+    <div>
+        <h2 class="mb-1">Document Management</h2>
+
+        <p class="text-muted mb-0">
+            View and manage documents for your projects.
+        </p>
+    </div>
+
+</div>
+
+
+<!-- Projects Section -->
+<div class="document-project-section">
+
+    <div class="document-section-header">
+
+        <div>
+            <h4 class="mb-1">My Projects</h4>
+
+            <p class="text-muted mb-0">
+                Select a project to view its documents.
+            </p>
+        </div>
+
+        @if (Model.Any())
+        {
+            <span class="document-count">
+                @Model.Count() @(Model.Count() == 1 ? "project" : "projects")
+            </span>
+        }
+
+    </div>
+
+
+    @if (!Model.Any())
+    {
+        <div class="document-empty-state document-project-empty">
+
+            <div class="document-empty-icon">
+                <i class="bi bi-folder-x"></i>
+            </div>
+
+            <h5>No Projects Yet</h5>
+
+            <p class="text-muted mb-0">
+                You currently have no projects.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var project in Model)
+            {
+                <div class="col-md-6">
+
+                    <div class="project-document-card h-100">
+
+                        <div class="project-document-card-body">
+
+                            <div class="project-document-icon">
+                                <i class="bi bi-folder"></i>
+                            </div>
+
+                            <div class="project-document-content">
+
+                                <h5 class="project-document-title">
+                                    @project.ProjectName
+                                </h5>
+
+                                <p class="project-document-description">
+                                    @project.Description
+                                </p>
+
+                                <div class="project-document-status">
+
+                                    <span class="project-status-label">
+                                        Status
+                                    </span>
+
+                                    <span class="project-status-badge">
+                                        @project.Status
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="project-document-footer">
+
+                            <a asp-controller="Document"
+                               asp-action="Index"
+                               asp-route-projectId="@project.ProjectID"
+                               class="btn syntech-primary-btn">
+
+                                <i class="bi bi-folder2-open me-2"></i>
+                                View Documents
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>
+
+</div>

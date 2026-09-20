@@ -68,6 +68,7 @@ namespace Syntech.WebApp.Data
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectUpdate> ProjectUpdates { get; set; }
+        public DbSet<Document> Documents { get; set; }
 
 
         protected override void OnModelCreating(
@@ -232,6 +233,71 @@ namespace Syntech.WebApp.Data
                 .WithMany()
                 .HasForeignKey(pu => pu.UserID)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // DOCUMENT
+            modelBuilder.Entity<Document>(entity =>
+            {
+                entity.ToTable("Document");
+
+                entity.HasKey(d => d.DocumentID);
+
+                entity.Property(d => d.DocumentID)
+                    .HasColumnName("documentID");
+
+                entity.Property(d => d.FileName)
+                    .HasColumnName("fileName")
+                    .HasMaxLength(255)
+                    .IsRequired();
+
+                entity.Property(d => d.OriginalFileName)
+                    .HasColumnName("originalFileName")
+                    .HasMaxLength(255)
+                    .IsRequired();
+
+                entity.Property(d => d.FileExtension)
+                    .HasColumnName("fileExtension")
+                    .HasMaxLength(20);
+
+                entity.Property(d => d.FileType)
+                    .HasColumnName("fileType")
+                    .HasMaxLength(100);
+
+                entity.Property(d => d.FilePath)
+                    .HasColumnName("filePath")
+                    .HasMaxLength(500)
+                    .IsRequired();
+
+                entity.Property(d => d.FileSize)
+                    .HasColumnName("fileSize");
+
+                entity.Property(d => d.UploadedBy)
+                    .HasColumnName("uploadedBy")
+                    .IsRequired();
+
+                entity.Property(d => d.UploadDate)
+                    .HasColumnName("uploadDate");
+
+                entity.Property(d => d.ProjectID)
+                    .HasColumnName("projectID")
+                    .IsRequired();
+
+                entity.Property(d => d.Category)
+                    .HasColumnName("category")
+                    .HasMaxLength(30)
+                    .IsRequired();
+
+                // Document → User
+                entity.HasOne(d => d.Uploader)
+                    .WithMany()
+                    .HasForeignKey(d => d.UploadedBy)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                // Document → Project
+                entity.HasOne(d => d.Project)
+                    .WithMany()
+                    .HasForeignKey(d => d.ProjectID)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
 
             // DEVELOPER PROJECT
             modelBuilder.Entity<DeveloperProject>(entity =>

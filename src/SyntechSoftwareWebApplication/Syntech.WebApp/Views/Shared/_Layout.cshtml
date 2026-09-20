@@ -7,7 +7,7 @@
           content="width=device-width, initial-scale=1.0" />
 
     <title>
-        @ViewData["Title"] - Syntech.WebApp
+        @ViewData["Title"] - Syntech Software (PTY) LTD
     </title>
 
     <script type="importmap"></script>
@@ -16,32 +16,44 @@
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
     <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet"
           href="~/css/site.css"
           asp-append-version="true" />
 
     <link rel="stylesheet"
           href="~/Syntech.WebApp.styles.css"
           asp-append-version="true" />
+
+    <link rel="icon"
+          type="image/png"
+          href="~/images/syntech-logo.png" />
 </head>
 
-<body>
+<body class="syntech-body">
 
     <header>
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg syntech-navbar">
 
-            <div class="container-fluid">
+            <div class="container-fluid px-4">
 
                 @* =============================================================
                    APPLICATION BRAND
                    ============================================================= *@
 
-                <a class="navbar-brand"
+                <a class="navbar-brand syntech-brand"
                    asp-area=""
                    asp-controller="Home"
                    asp-action="Index">
 
-                    Syntech.WebApp
+                    <img src="~/images/syntech-logo.png"
+                         alt="Syntech Software Logo"
+                         class="syntech-logo" />
+
+                    <span class="syntech-brand-name">Syntech</span>
+                    <span class="syntech-brand-app">Software</span>
 
                 </a>
 
@@ -50,7 +62,7 @@
                    MOBILE NAVIGATION TOGGLE
                    ============================================================= *@
 
-                <button class="navbar-toggler"
+                <button class="navbar-toggler syntech-toggler"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target=".navbar-collapse"
@@ -63,13 +75,14 @@
                 </button>
 
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse"
+                     id="navbarSupportedContent">
 
                     @* =========================================================
                        MAIN NAVIGATION
                        ========================================================= *@
 
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 syntech-main-nav">
 
                         @* -----------------------------------------------------
                            HOME
@@ -77,30 +90,12 @@
 
                         <li class="nav-item">
 
-                            <a class="nav-link text-dark"
+                            <a class="nav-link syntech-nav-link"
                                asp-area=""
                                asp-controller="Home"
                                asp-action="Index">
 
                                 Home
-
-                            </a>
-
-                        </li>
-
-
-                        @* -----------------------------------------------------
-                           PRIVACY
-                           ----------------------------------------------------- *@
-
-                        <li class="nav-item">
-
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Home"
-                               asp-action="Privacy">
-
-                                Privacy
 
                             </a>
 
@@ -114,26 +109,14 @@
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             @* -------------------------------------------------
-                               CLIENT DASHBOARD
-                               -------------------------------------------------
-
-                               Only display this navigation item when the
-                               authenticated user's role is Client.
-
-                               The controller itself also has:
-
-                               [Authorize(Roles = "Client")]
-
-                               Therefore this navigation item is not the
-                               security mechanism. It is simply the correct
-                               user interface for the authenticated role.
-                            *@
+                               CLIENT NAVIGATION
+                               ------------------------------------------------- *@
 
                             @if (User.IsInRole("Client"))
                             {
                                 <li class="nav-item">
 
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link syntech-nav-link"
                                        asp-area=""
                                        asp-controller="ClientDashboard"
                                        asp-action="Index">
@@ -144,13 +127,9 @@
 
                                 </li>
 
-                                @* -------------------------------------------------
-                                   SUPPORT TICKETS (Client)
-                                   ------------------------------------------------- *@
-
                                 <li class="nav-item">
 
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link syntech-nav-link"
                                        asp-area=""
                                        asp-controller="Ticket"
                                        asp-action="Index">
@@ -160,18 +139,31 @@
                                     </a>
 
                                 </li>
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link syntech-nav-link"
+                                       asp-area=""
+                                       asp-controller="Document"
+                                       asp-action="Manage">
+
+                                        Documents
+
+                                    </a>
+
+                                </li>
                             }
 
 
                             @* -------------------------------------------------
-                               DEVELOPER DASHBOARD
+                               DEVELOPER NAVIGATION
                                ------------------------------------------------- *@
 
                             @if (User.IsInRole("Developer"))
                             {
                                 <li class="nav-item">
 
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link syntech-nav-link"
                                        asp-area=""
                                        asp-controller="DeveloperDashboard"
                                        asp-action="Index">
@@ -182,13 +174,9 @@
 
                                 </li>
 
-                                @* -------------------------------------------------
-                                   SUPPORT TICKETS (Developer)
-                                   ------------------------------------------------- *@
-
                                 <li class="nav-item">
 
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link syntech-nav-link"
                                        asp-area=""
                                        asp-controller="Ticket"
                                        asp-action="Index">
@@ -198,18 +186,31 @@
                                     </a>
 
                                 </li>
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link syntech-nav-link"
+                                       asp-area=""
+                                       asp-controller="Document"
+                                       asp-action="Manage">
+
+                                        Documents
+
+                                    </a>
+
+                                </li>
                             }
 
 
                             @* -------------------------------------------------
-                               ADMIN DASHBOARD
+                               ADMIN NAVIGATION
                                ------------------------------------------------- *@
 
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
 
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link syntech-nav-link"
                                        asp-area=""
                                        asp-controller="AdminDashboard"
                                        asp-action="Index">
@@ -222,7 +223,7 @@
 
                                 <li class="nav-item">
 
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link syntech-nav-link"
                                        asp-area=""
                                        asp-controller="Project"
                                        asp-action="Index">
@@ -233,13 +234,9 @@
 
                                 </li>
 
-                                @* -------------------------------------------------
-                                   SUPPORT TICKETS (Admin)
-                                   ------------------------------------------------- *@
-
                                 <li class="nav-item">
 
-                                    <a class="nav-link text-dark"
+                                    <a class="nav-link syntech-nav-link"
                                        asp-area=""
                                        asp-controller="Ticket"
                                        asp-action="Index">
@@ -250,30 +247,39 @@
 
                                 </li>
 
+                                <li class="nav-item">
 
-                                @* -------------------------------------------------
-                                   ADMIN USER MANAGEMENT
+                                    <a class="nav-link syntech-nav-link"
+                                       asp-area=""
+                                       asp-controller="Document"
+                                       asp-action="Manage">
 
-                                   The actual User Management controller will
-                                   be implemented later.
+                                        Documents
 
-                                   We are deliberately NOT adding a link to
-                                   a controller that does not exist yet.
-                                   ------------------------------------------------- *@
+                                    </a>
+
+                                </li>
                             }
+                        }
+
+                    </ul>
 
 
+                    @* =========================================================
+                       ACCOUNT NAVIGATION
+                       ========================================================= *@
+
+                    <ul class="navbar-nav syntech-account-nav">
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
                             @* -------------------------------------------------
-   PROFILE
-
-   The Profile controller requires authentication,
-   so this link is only displayed to authenticated
-   users.
-   ------------------------------------------------- *@
+                               PROFILE
+                               ------------------------------------------------- *@
 
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
+                                <a class="nav-link syntech-nav-link"
                                    asp-area=""
                                    asp-controller="Profile"
                                    asp-action="Index">
@@ -283,39 +289,15 @@
                                 </a>
 
                             </li>
-                        }
-
-                    </ul>
-
-                    <li class="nav-item">
-
-                        <a class="nav-link text-dark"
-                           asp-area=""
-                           asp-controller="AccountSecurity"
-                           asp-action="ChangePassword">
-
-                            Change Password
-
-                        </a>
-
-                    </li>
 
 
-                    @* =========================================================
-                       ACCOUNT NAVIGATION
-                       ========================================================= *@
-
-                    <ul class="navbar-nav">
-
-                        @if (User.Identity?.IsAuthenticated == true)
-                        {
                             @* -------------------------------------------------
-                               DISPLAY CURRENT USER
+                               CURRENT USER
                                ------------------------------------------------- *@
 
-                            <li class="nav-item">
+                            <li class="nav-item syntech-user">
 
-                                <span class="nav-link text-dark">
+                                <span class="nav-link syntech-user-link">
 
                                     Hello,
                                     <strong>
@@ -328,16 +310,25 @@
 
 
                             @* -------------------------------------------------
+                               CHANGE PASSWORD
+                               ------------------------------------------------- *@
+
+                            <li class="nav-item">
+
+                                <a class="nav-link syntech-nav-link"
+                                   asp-area=""
+                                   asp-controller="AccountSecurity"
+                                   asp-action="ChangePassword">
+
+                                    Change Password
+
+                                </a>
+
+                            </li>
+
+
+                            @* -------------------------------------------------
                                LOGOUT
-
-                               Logout is intentionally implemented as a POST
-                               request rather than a normal GET link.
-
-                               This prevents a third party from triggering a
-                               logout simply by causing the browser to visit
-                               a logout URL.
-
-                               The form also includes an antiforgery token.
                                ------------------------------------------------- *@
 
                             <li class="nav-item">
@@ -350,7 +341,7 @@
                                     @Html.AntiForgeryToken()
 
                                     <button type="submit"
-                                            class="nav-link btn btn-link text-dark">
+                                            class="nav-link btn btn-link syntech-logout">
 
                                         Logout
 
@@ -368,7 +359,7 @@
 
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
+                                <a class="nav-link syntech-nav-link"
                                    asp-area=""
                                    asp-controller="Account"
                                    asp-action="Login">
@@ -386,7 +377,7 @@
 
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
+                                <a class="nav-link syntech-register"
                                    asp-area=""
                                    asp-controller="Account"
                                    asp-action="Register">
@@ -413,7 +404,7 @@
        MAIN CONTENT
        ============================================================= *@
 
-    <div class="container">
+    <div class="container syntech-main-container">
 
         <main role="main"
               class="pb-3">
@@ -429,19 +420,46 @@
        FOOTER
        ============================================================= *@
 
-    <footer class="border-top footer text-muted">
+    <footer class="syntech-footer">
 
         <div class="container">
 
-            &copy; 2026 - Syntech.WebApp -
+            <div class="syntech-footer-content">
 
-            <a asp-area=""
-               asp-controller="Home"
-               asp-action="Privacy">
+                <div class="syntech-footer-brand">
 
-                Privacy
+                    <span class="syntech-footer-title">
+                        Syntech Software (PTY) LTD
+                    </span>
 
-            </a>
+                    <span class="syntech-footer-text">
+                        Secure software solutions and client collaboration.
+                    </span>
+
+                </div>
+
+
+                <div class="syntech-footer-links">
+
+                    <span>
+                        &copy; 2026 Syntech Software (PTY) LTD - Developed by Dev Verse (INSY7315)
+                    </span>
+
+                    <span class="syntech-footer-divider">
+                        |
+                    </span>
+
+                    <a asp-area=""
+                       asp-controller="Home"
+                       asp-action="Privacy">
+
+                        Privacy Policy
+
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
 
