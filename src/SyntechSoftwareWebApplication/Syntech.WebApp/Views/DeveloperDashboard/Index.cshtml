@@ -3,90 +3,105 @@
 @{
     ViewData["Title"] = "Developer Dashboard";
     string developerName = ViewBag.DeveloperName as string ?? User.Identity?.Name ?? "Developer";
+    var count = Model?.Count() ?? 0;
 }
 
-<div class="container mt-5">
+<div class="container mt-4 mb-5">
 
-    <div class="mb-4">
-        <h1 class="mb-2">
-            Developer Dashboard
-        </h1>
-        <p class="text-muted mb-0">
-            Welcome, @developerName.
-            These are the projects assigned to you.
-        </p>
+    <div class="document-page-header">
+        <div class="document-page-title">
+            <div class="document-title-icon">
+                <i class="bi bi-code-slash"></i>
+            </div>
+            <div>
+                <h2 class="mb-1">Developer Dashboard</h2>
+                <p class="text-muted mb-0">
+                    Welcome, @developerName. Projects assigned to you.
+                </p>
+            </div>
+        </div>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+    <div class="document-card">
+        <div class="document-card-header">
+            <h5 class="mb-0">My Assigned Projects</h5>
+            <span class="document-count">@count project(s)</span>
+        </div>
 
-            <h4 class="mb-3">
-                My Assigned Projects
-            </h4>
-
-            @if (Model == null || !Model.Any())
-            {
+        @if (Model == null || !Model.Any())
+        {
+            <div class="document-empty-state">
+                <div class="document-empty-icon">
+                    <i class="bi bi-folder2-open"></i>
+                </div>
+                <h5>No assigned projects</h5>
                 <p class="text-muted mb-0">
                     You are not assigned to any projects yet.
                 </p>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table syntech-document-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                            <th>Start</th>
+                            <th>Deadline</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
                             <tr>
-                                <th>Project</th>
-                                <th>Status</th>
-                                <th style="width: 180px;">Progress</th>
-                                <th>Start</th>
-                                <th>Deadline</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@item.ProjectName</td>
-                                    <td>
-                                        <span class="badge bg-secondary">
-                                            @item.Status
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="progress flex-grow-1" style="height: 8px;">
-                                                <div class="progress-bar"
-                                                     role="progressbar"
-                                                     style="width: @(item.ProgressPercentage)%;"
-                                                     aria-valuenow="@item.ProgressPercentage"
-                                                     aria-valuemin="0"
-                                                     aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                            <span class="small text-muted">
-                                                @item.ProgressPercentage.ToString("0")%
-                                            </span>
+                                <td>
+                                    <div class="document-file-name">
+                                        <div class="document-file-icon">
+                                            <i class="bi bi-briefcase"></i>
                                         </div>
-                                    </td>
-                                    <td>@(item.StartDate?.ToString("yyyy-MM-dd") ?? "—")</td>
-                                    <td>@(item.Deadline?.ToString("yyyy-MM-dd") ?? "—")</td>
-                                    <td class="text-end">
+                                        <span>@item.ProjectName</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="project-status-badge">@item.Status</span>
+                                </td>
+                                <td>
+                                    <div class="project-progress-wrapper">
+                                        <div class="project-progress-info">
+                                            <span>@item.ProgressPercentage.ToString("0")%</span>
+                                        </div>
+                                        <div class="progress project-progress">
+                                            <div class="progress-bar"
+                                                 role="progressbar"
+                                                 style="width: @(item.ProgressPercentage)%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="document-date">
+                                    @(item.StartDate?.ToString("yyyy-MM-dd") ?? "—")
+                                </td>
+                                <td class="document-date">
+                                    @(item.Deadline?.ToString("yyyy-MM-dd") ?? "—")
+                                </td>
+                                <td>
+                                    <div class="document-actions">
                                         <a asp-action="ProjectDetails"
                                            asp-route-id="@item.ProjectID"
-                                           class="btn btn-sm btn-outline-primary">
+                                           class="btn btn-sm syntech-primary-btn">
                                             Open
                                         </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-
-        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
     </div>
 
 </div>
