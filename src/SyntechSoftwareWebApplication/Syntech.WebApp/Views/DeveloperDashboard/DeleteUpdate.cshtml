@@ -5,61 +5,61 @@
     string projectName = ViewBag.ProjectName as string ?? "Project";
 }
 
-<div class="container mt-5">
+<div class="container mt-4 mb-5">
 
-    <div class="mb-4">
-        <h1 class="mb-2">
-            Delete Project Update
-        </h1>
-        <p class="text-muted mb-0">
-            Confirm deletion of your update on <strong>@projectName</strong>.
-        </p>
+    <div class="document-back-navigation">
+        <a asp-action="ProjectDetails" asp-route-id="@Model.ProjectID" class="document-back-btn">
+            <i class="bi bi-arrow-left"></i> Back to Project
+        </a>
     </div>
 
-    <div class="card shadow-sm border-danger">
-        <div class="card-body">
+    <div class="document-page-heading">
+        <div class="document-title-icon">
+            <i class="bi bi-trash"></i>
+        </div>
+        <div>
+            <h2 class="mb-1">Delete Project Update</h2>
+            <p class="text-muted mb-0">
+                Confirm deletion of your update on <strong>@projectName</strong>.
+            </p>
+        </div>
+    </div>
 
-            <div class="alert alert-warning" role="alert">
+    <div class="document-card border border-danger">
+        <div class="document-card-header">
+            <h5 class="mb-0 text-danger">Confirm deletion</h5>
+        </div>
+        <div class="p-4">
+            <div class="syntech-success-alert mb-4"
+                 style="color:#842029;background:#f8d7da;border-color:#f5c2c7;">
                 This action cannot be undone.
             </div>
 
-            <dl class="row">
+            <dl class="row mb-4">
                 <dt class="col-sm-3">Title</dt>
-                <dd class="col-sm-9">@Model.UpdateTitle</dd>
-
+                <dd class="col-sm-9 fw-semibold">@Model.UpdateTitle</dd>
                 <dt class="col-sm-3">Description</dt>
                 <dd class="col-sm-9">@Model.UpdateDescription</dd>
-
                 <dt class="col-sm-3">Progress</dt>
                 <dd class="col-sm-9">
                     @(Model.ProgressPercentage.HasValue
                         ? Model.ProgressPercentage.Value.ToString("0") + "%"
                         : "—")
                 </dd>
-
                 <dt class="col-sm-3">Created</dt>
-                <dd class="col-sm-9">@Model.CreatedDate.ToString("yyyy-MM-dd HH:mm")</dd>
-
+                <dd class="col-sm-9 document-date">@Model.CreatedDate.ToString("yyyy-MM-dd HH:mm")</dd>
                 <dt class="col-sm-3">Author</dt>
-                <dd class="col-sm-9">@(Model.User?.Name ?? "You")</dd>
+                <dd class="col-sm-9 document-user">@(Model.User?.Name ?? "You")</dd>
             </dl>
 
             <form asp-action="DeleteUpdate" method="post">
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="UpdateID" />
-
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-danger">
-                        Delete
-                    </button>
-                    <a asp-action="ProjectDetails"
-                       asp-route-id="@Model.ProjectID"
-                       class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
+                <div class="document-upload-actions">
+                    <button type="submit" class="syntech-delete-btn btn">Delete</button>
+                    <a asp-action="ProjectDetails" asp-route-id="@Model.ProjectID" class="syntech-cancel-btn">Cancel</a>
                 </div>
             </form>
-
         </div>
     </div>
 

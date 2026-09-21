@@ -5,74 +5,62 @@
     string projectName = ViewBag.ProjectName as string ?? "Project";
 }
 
-<div class="container mt-5">
+<div class="container mt-4 mb-5">
 
-    <div class="mb-4">
-        <h1 class="mb-2">
-            Add Project Update
-        </h1>
-        <p class="text-muted mb-0">
-            Posting an update for <strong>@projectName</strong>.
-        </p>
+    <div class="document-back-navigation">
+        <a asp-action="ProjectDetails" asp-route-id="@Model.ProjectID" class="document-back-btn">
+            <i class="bi bi-arrow-left"></i> Back to Project
+        </a>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+    <div class="document-page-heading">
+        <div class="document-title-icon">
+            <i class="bi bi-journal-plus"></i>
+        </div>
+        <div>
+            <h2 class="mb-1">Add Project Update</h2>
+            <p class="text-muted mb-0">
+                Posting an update for <strong>@projectName</strong>.
+            </p>
+        </div>
+    </div>
 
+    <div class="document-upload-card">
+        <div class="document-upload-header">
+            <h5 class="mb-0">Update details</h5>
+        </div>
+        <div class="document-upload-body">
             <form asp-action="CreateUpdate" method="post">
                 @Html.AntiForgeryToken()
-
                 <input type="hidden" asp-for="ProjectID" />
-
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="mb-3">
-                    <label asp-for="UpdateTitle" class="form-label">
-                        Update Title
-                    </label>
-                    <input asp-for="UpdateTitle" class="form-control" />
+                    <label asp-for="UpdateTitle" class="syntech-form-label">Update Title</label>
+                    <input asp-for="UpdateTitle" class="form-control syntech-form-control" />
                     <span asp-validation-for="UpdateTitle" class="text-danger"></span>
                 </div>
-
                 <div class="mb-3">
-                    <label asp-for="UpdateDescription" class="form-label">
-                        Description
-                    </label>
-                    <textarea asp-for="UpdateDescription"
-                              class="form-control"
-                              rows="4"></textarea>
+                    <label asp-for="UpdateDescription" class="syntech-form-label">Description</label>
+                    <textarea asp-for="UpdateDescription" class="form-control syntech-form-control" rows="4"></textarea>
                     <span asp-validation-for="UpdateDescription" class="text-danger"></span>
                 </div>
-
                 <div class="mb-4">
-                    <label asp-for="ProgressPercentage" class="form-label">
-                        Progress Percentage (optional)
-                    </label>
-                    <input asp-for="ProgressPercentage"
-                           type="number"
-                           min="0"
-                           max="100"
-                           step="1"
-                           class="form-control"
-                           style="max-width: 200px;" />
-                    <div class="form-text">
+                    <label asp-for="ProgressPercentage" class="syntech-form-label">Progress % (optional)</label>
+                    <input asp-for="ProgressPercentage" type="number" min="0" max="100" step="1"
+                           class="form-control syntech-form-control" style="max-width:200px;" />
+                    <div class="syntech-file-help">
+                        <i class="bi bi-info-circle"></i>
                         If provided, this becomes the project’s overall progress.
                     </div>
                     <span asp-validation-for="ProgressPercentage" class="text-danger"></span>
                 </div>
 
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
-                        Save Update
-                    </button>
-                    <a asp-action="ProjectDetails"
-                       asp-route-id="@Model.ProjectID"
-                       class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
+                <div class="document-upload-actions">
+                    <button type="submit" class="syntech-primary-btn">Save Update</button>
+                    <a asp-action="ProjectDetails" asp-route-id="@Model.ProjectID" class="syntech-cancel-btn">Cancel</a>
                 </div>
             </form>
-
         </div>
     </div>
 

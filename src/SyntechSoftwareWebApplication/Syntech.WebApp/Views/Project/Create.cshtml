@@ -4,30 +4,42 @@
     ViewData["Title"] = "Create Project";
 }
 
-<div class="container mt-5">
+<div class="container mt-4 mb-5">
 
-    <div class="mb-4">
-        <h1 class="mb-2">Create Project</h1>
-        <p class="text-muted mb-0">
-            Add a new project and assign a client, admin, and developers.
-        </p>
+    <div class="document-back-navigation">
+        <a asp-action="Index" class="document-back-btn">
+            <i class="bi bi-arrow-left"></i> Back to Projects
+        </a>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+    <div class="document-page-heading">
+        <div class="document-title-icon">
+            <i class="bi bi-plus-square"></i>
+        </div>
+        <div>
+            <h2 class="mb-1">Create Project</h2>
+            <p class="text-muted mb-0">Assign a client, admin, and developers.</p>
+        </div>
+    </div>
+
+    <div class="document-upload-card">
+        <div class="document-upload-header">
+            <h5 class="mb-0">Project details</h5>
+        </div>
+        <div class="document-upload-body">
             <form asp-action="Create" method="post">
                 @Html.AntiForgeryToken()
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="row g-3">
                     <div class="col-md-8">
-                        <label asp-for="ProjectName" class="form-label">Project name</label>
-                        <input asp-for="ProjectName" class="form-control" />
+                        <label asp-for="ProjectName" class="syntech-form-label">Project name</label>
+                        <input asp-for="ProjectName" class="form-control syntech-form-control" />
                         <span asp-validation-for="ProjectName" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="Status" class="form-label">Status</label>
-                        <select asp-for="Status" class="form-select">
+                        <label asp-for="Status" class="syntech-form-label">Status</label>
+                        <select asp-for="Status" class="form-select syntech-form-control">
                             <option value="">-- Select Status --</option>
                             <option value="Planning">Planning</option>
                             <option value="In Progress">In Progress</option>
@@ -39,45 +51,44 @@
                     </div>
 
                     <div class="col-12">
-                        <label asp-for="Description" class="form-label">Description</label>
-                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        <label asp-for="Description" class="syntech-form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control syntech-form-control" rows="4"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-4">
-                        <label asp-for="ProgressPercentage" class="form-label">Progress %</label>
-                        <input asp-for="ProgressPercentage" type="number" min="0" max="100" step="1" class="form-control" />
+                        <label asp-for="ProgressPercentage" class="syntech-form-label">Progress %</label>
+                        <input asp-for="ProgressPercentage" type="number" min="0" max="100" step="1"
+                               class="form-control syntech-form-control" />
                         <span asp-validation-for="ProgressPercentage" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="StartDate" class="form-label">Start date</label>
-                        <input asp-for="StartDate" type="date" class="form-control" />
-                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                        <label asp-for="StartDate" class="syntech-form-label">Start date</label>
+                        <input asp-for="StartDate" type="date" class="form-control syntech-form-control" />
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="Deadline" class="form-label">Deadline</label>
-                        <input asp-for="Deadline" type="date" class="form-control" />
-                        <span asp-validation-for="Deadline" class="text-danger"></span>
+                        <label asp-for="Deadline" class="syntech-form-label">Deadline</label>
+                        <input asp-for="Deadline" type="date" class="form-control syntech-form-control" />
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="ClientID" class="form-label">Client</label>
-                        <select asp-for="ClientID" asp-items="ViewBag.Clients" class="form-select">
+                        <label asp-for="ClientID" class="syntech-form-label">Client</label>
+                        <select asp-for="ClientID" asp-items="ViewBag.Clients" class="form-select syntech-form-control">
                             <option value="">-- Select Client --</option>
                         </select>
                         <span asp-validation-for="ClientID" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="AdminID" class="form-label">Admin</label>
-                        <select asp-for="AdminID" asp-items="ViewBag.Admins" class="form-select">
+                        <label asp-for="AdminID" class="syntech-form-label">Admin</label>
+                        <select asp-for="AdminID" asp-items="ViewBag.Admins" class="form-select syntech-form-control">
                             <option value="">-- Select Admin --</option>
                         </select>
                         <span asp-validation-for="AdminID" class="text-danger"></span>
                     </div>
 
                     <div class="col-12">
-                        <label class="form-label">Developers</label>
-                        <select asp-for="SelectedDeveloperIDs" class="form-select" multiple size="6">
+                        <label class="syntech-form-label">Developers</label>
+                        <select asp-for="SelectedDeveloperIDs" class="form-select syntech-form-control" multiple size="6">
                             @if (ViewBag.Developers != null)
                             {
                                 foreach (var developer in ViewBag.Developers)
@@ -88,13 +99,16 @@
                                 }
                             }
                         </select>
-                        <div class="form-text">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</div>
+                        <div class="syntech-file-help">
+                            <i class="bi bi-info-circle"></i>
+                            Hold Ctrl (Windows) or Cmd (Mac) to select multiple.
+                        </div>
                     </div>
                 </div>
 
-                <div class="d-flex gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary">Create Project</button>
-                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                <div class="document-upload-actions mt-4">
+                    <button type="submit" class="syntech-primary-btn">Create Project</button>
+                    <a asp-action="Index" class="syntech-cancel-btn">Cancel</a>
                 </div>
             </form>
         </div>
