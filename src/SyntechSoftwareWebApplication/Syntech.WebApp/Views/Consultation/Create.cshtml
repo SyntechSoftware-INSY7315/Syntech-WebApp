@@ -1,0 +1,213 @@
+﻿@{
+    ViewData["Title"] = "Book Consultation";
+}
+
+<div class="container py-4 mb-5">
+
+    <!-- Page Header -->
+    <div class="consultation-page-header">
+
+        <div class="consultation-page-heading">
+
+            <div class="consultation-title-icon">
+                <i class="bi bi-calendar-plus"></i>
+            </div>
+
+            <div>
+                <h1 class="consultation-page-title">
+                    Book a Consultation
+                </h1>
+
+                <p class="consultation-page-subtitle">
+                    Select a date and time and provide some information
+                    about what you would like to discuss.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Back Navigation -->
+    <div class="consultation-back-navigation">
+
+        <a asp-controller="Consultation"
+           asp-action="Manage"
+           class="consultation-back-btn">
+
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Consultations
+
+        </a>
+
+    </div>
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-md-9">
+
+            <!-- Booking Form Card -->
+            <div class="consultation-form-card">
+
+                <div class="consultation-form-header">
+
+                    <div>
+
+                        <h2 class="consultation-form-title">
+                            Consultation Details
+                        </h2>
+
+                        <p class="consultation-form-subtitle mb-0">
+                            Provide your preferred date, time, and discussion details.
+                        </p>
+
+                    </div>
+
+                    <div class="consultation-form-header-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+
+                </div>
+
+
+                <div class="consultation-form-body">
+
+                    <form asp-controller="Consultation"
+                          asp-action="Create"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="consultation-validation-summary">
+                        </div>
+
+
+                        <!-- Booking Date -->
+                        <div class="consultation-form-group">
+
+                            <label for="bookingDate"
+                                   class="syntech-form-label">
+
+                                <i class="bi bi-calendar3 me-1"></i>
+                                Consultation Date
+
+                            </label>
+
+                            <input type="date"
+                                   id="bookingDate"
+                                   name="bookingDate"
+                                   class="form-control syntech-form-control"
+                                   min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                   required />
+
+                            <div class="consultation-form-help">
+
+                                <i class="bi bi-info-circle me-1"></i>
+                                Please select a future date.
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Booking Time -->
+                        <div class="consultation-form-group">
+
+                            <label for="bookingTime"
+                                   class="syntech-form-label">
+
+                                <i class="bi bi-clock me-1"></i>
+                                Consultation Time
+
+                            </label>
+
+                            <input type="time"
+                                   id="bookingTime"
+                                   name="bookingTime"
+                                   class="form-control syntech-form-control"
+                                   required />
+
+                            <div class="consultation-form-help">
+
+                                <i class="bi bi-info-circle me-1"></i>
+                                Please select your preferred consultation time.
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Description -->
+                        <div class="consultation-form-group">
+
+                            <label for="description"
+                                   class="syntech-form-label">
+
+                                <i class="bi bi-chat-left-text me-1"></i>
+                                Consultation Description
+
+                            </label>
+
+                            <textarea id="description"
+                                      name="description"
+                                      class="form-control syntech-form-control consultation-textarea"
+                                      rows="5"
+                                      maxlength="1000"
+                                      placeholder="Please describe what you would like to discuss..."
+                                      required></textarea>
+
+                            <div class="consultation-form-help">
+
+                                <i class="bi bi-info-circle me-1"></i>
+                                Maximum 1000 characters.
+
+                            </div>
+
+                            <span class="text-danger field-validation-valid consultation-validation-message"
+                                  data-valmsg-for="description"
+                                  data-valmsg-replace="true">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Buttons -->
+                        <div class="consultation-form-actions">
+
+                            <a asp-controller="Consultation"
+                               asp-action="Manage"
+                               class="consultation-form-cancel-btn">
+
+                                <i class="bi bi-x-lg me-1"></i>
+                                Cancel
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn syntech-primary-btn consultation-submit-btn">
+
+                                <i class="bi bi-calendar-check me-1"></i>
+                                Request Consultation
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,161 @@
+﻿@model Syntech.WebApp.Models.ConsultationRescheduleViewModel
+
+@{
+    ViewData["Title"] = "Reschedule Consultation";
+}
+
+<div class="container py-4 mb-5">
+
+    <!-- Page Header -->
+    <div class="consultation-page-header">
+
+        <div class="consultation-page-heading">
+
+            <div class="consultation-title-icon">
+                <i class="bi bi-calendar-event"></i>
+            </div>
+
+            <div>
+                <h1 class="consultation-page-title">
+                    Reschedule Consultation
+                </h1>
+
+                <p class="consultation-page-subtitle">
+                    Select a new date and time for this consultation.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Reschedule Form -->
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-md-9">
+
+            <div class="consultation-form-card">
+
+                <div class="consultation-form-header">
+
+                    <div>
+
+                        <h2 class="consultation-form-title">
+                            New Consultation Schedule
+                        </h2>
+
+                        <p class="consultation-form-subtitle mb-0">
+                            Update the date and time for the selected consultation.
+                        </p>
+
+                    </div>
+
+                    <div class="consultation-form-header-icon">
+                        <i class="bi bi-calendar2-week"></i>
+                    </div>
+
+                </div>
+
+
+                <div class="consultation-form-body">
+
+                    <form asp-controller="Consultation"
+                          asp-action="Reschedule"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               asp-for="ConsultationID" />
+
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="consultation-validation-summary">
+                        </div>
+
+
+                        <!-- Booking Date -->
+                        <div class="consultation-form-group">
+
+                            <label asp-for="BookingDate"
+                                   class="syntech-form-label">
+
+                                <i class="bi bi-calendar3 me-1"></i>
+                                New Consultation Date
+
+                            </label>
+
+                            <input asp-for="BookingDate"
+                                   type="date"
+                                   class="form-control syntech-form-control"
+                                   min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+
+                            <span asp-validation-for="BookingDate"
+                                  class="consultation-validation-message">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Booking Time -->
+                        <div class="consultation-form-group">
+
+                            <label asp-for="BookingTime"
+                                   class="syntech-form-label">
+
+                                <i class="bi bi-clock me-1"></i>
+                                New Consultation Time
+
+                            </label>
+
+                            <input asp-for="BookingTime"
+                                   type="time"
+                                   class="form-control syntech-form-control" />
+
+                            <span asp-validation-for="BookingTime"
+                                  class="consultation-validation-message">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Buttons -->
+                        <div class="consultation-form-actions">
+
+                            <a asp-controller="Consultation"
+                               asp-action="AdminBookings"
+                               class="consultation-form-cancel-btn">
+
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Cancel
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn syntech-primary-btn consultation-submit-btn">
+
+                                <i class="bi bi-calendar-event me-1"></i>
+                                Save New Date &amp; Time
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

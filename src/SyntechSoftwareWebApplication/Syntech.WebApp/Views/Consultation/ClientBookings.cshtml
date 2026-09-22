@@ -1,0 +1,247 @@
+﻿@model IEnumerable<Syntech.WebApp.Models.Consultation>
+
+@{
+    ViewData["Title"] = "My Consultations";
+}
+
+<div class="container py-4 mb-5">
+
+    <!-- Page Header -->
+    <div class="consultation-page-header">
+
+        <div class="consultation-page-heading">
+
+            <div class="consultation-title-icon">
+                <i class="bi bi-calendar-check"></i>
+            </div>
+
+            <div>
+                <h1 class="consultation-page-title">
+                    Consultation Booking
+                </h1>
+
+                <p class="consultation-page-subtitle">
+                    View and manage your consultation requests.
+                </p>
+            </div>
+
+        </div>
+
+        <a asp-controller="Consultation"
+           asp-action="Create"
+           class="btn syntech-primary-btn">
+
+            <i class="bi bi-calendar-plus me-1"></i>
+            Book Consultation
+
+        </a>
+
+    </div>
+
+
+    <!-- Success Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert syntech-success-alert alert-dismissible fade show"
+             role="alert">
+
+            <i class="bi bi-check-circle-fill me-2"></i>
+
+            <div>
+                @TempData["SuccessMessage"]
+            </div>
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close">
+            </button>
+
+        </div>
+    }
+
+
+    @if (!Model.Any())
+    {
+        <!-- Empty State -->
+        <div class="consultation-card">
+
+            <div class="consultation-empty-state">
+
+                <div class="consultation-empty-icon">
+                    <i class="bi bi-calendar-x"></i>
+                </div>
+
+                <h4>No Consultations Yet</h4>
+
+                <p class="text-muted">
+                    You don't have any consultation requests yet.
+                </p>
+
+                <a asp-controller="Consultation"
+                   asp-action="Create"
+                   class="btn syntech-primary-btn">
+
+                    <i class="bi bi-calendar-plus me-1"></i>
+                    Book Your First Consultation
+
+                </a>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <!-- Consultation List -->
+        <div class="consultation-card">
+
+            <div class="consultation-card-header">
+
+                <div>
+                    <h5 class="mb-1">
+                        My Consultations
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Your consultation requests and scheduled appointments.
+                    </p>
+                </div>
+
+                <span class="consultation-count">
+                    @Model.Count()
+                    @(Model.Count() == 1 ? "consultation" : "consultations")
+                </span>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table syntech-consultation-table align-middle mb-0">
+
+                    <thead>
+                        <tr>
+
+                            <th class="px-4">
+                                Date
+                            </th>
+
+                            <th>
+                                Time
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var consultation in Model)
+                        {
+                            <tr>
+
+                                <td class="px-4">
+
+                                    <span class="consultation-date">
+
+                                        <i class="bi bi-calendar3 me-2"></i>
+
+                                        @consultation.BookingDate.ToString("dd MMM yyyy")
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="consultation-time">
+
+                                        <i class="bi bi-clock me-2"></i>
+
+                                        @consultation.BookingTime.ToString(@"hh\:mm")
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    @if (consultation.Status == "Pending")
+                                    {
+                                        <span class="consultation-status consultation-status-pending">
+                                            <i class="bi bi-hourglass-split me-1"></i>
+                                            Pending
+                                        </span>
+                                    }
+                                    else if (consultation.Status == "Approved")
+                                    {
+                                        <span class="consultation-status consultation-status-approved">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            Approved
+                                        </span>
+                                    }
+                                    else if (consultation.Status == "Cancelled")
+                                    {
+                                        <span class="consultation-status consultation-status-cancelled">
+                                            <i class="bi bi-x-circle me-1"></i>
+                                            Cancelled
+                                        </span>
+                                    }
+                                    else if (consultation.Status == "Completed")
+                                    {
+                                        <span class="consultation-status consultation-status-completed">
+                                            <i class="bi bi-check-circle-fill me-1"></i>
+                                            Completed
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="consultation-status consultation-status-default">
+                                            @consultation.Status
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(consultation.Description))
+                                    {
+                                        <span class="consultation-description">
+                                            @consultation.Description
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            No description provided
+                                        </span>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+
+</div>
