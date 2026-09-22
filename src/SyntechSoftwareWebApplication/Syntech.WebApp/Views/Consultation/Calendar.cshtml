@@ -1,0 +1,215 @@
+﻿@model Syntech.WebApp.Models.ConsultationCalendarViewModel
+
+@{
+    ViewData["Title"] = "Consultation Calendar";
+
+    var previousMonth = new DateTime(Model.Year, Model.Month, 1).AddMonths(-1);
+    var nextMonth = new DateTime(Model.Year, Model.Month, 1).AddMonths(1);
+
+    var currentDay = Model.FirstCalendarDay;
+}
+
+<div class="container py-4 mb-5">
+
+    <!-- Page Header -->
+    <div class="consultation-page-header">
+
+        <div class="consultation-page-heading">
+
+            <div class="consultation-title-icon">
+                <i class="bi bi-calendar3"></i>
+            </div>
+
+            <div>
+                <h1 class="consultation-page-title">
+                    Consultation Calendar
+                </h1>
+
+                <p class="consultation-page-subtitle">
+                    View scheduled client consultations by date.
+                </p>
+            </div>
+
+        </div>
+
+        <a asp-controller="Consultation"
+           asp-action="AdminBookings"
+           class="consultation-secondary-btn">
+
+            <i class="bi bi-list-ul me-1"></i>
+            List View
+
+        </a>
+
+    </div>
+
+
+    <!-- Calendar Card -->
+    <div class="consultation-calendar-card">
+
+        <!-- Calendar Header -->
+        <div class="consultation-calendar-header">
+
+            <a asp-controller="Consultation"
+               asp-action="Calendar"
+               asp-route-year="@previousMonth.Year"
+               asp-route-month="@previousMonth.Month"
+               class="calendar-navigation-btn">
+
+                <i class="bi bi-chevron-left"></i>
+
+                <span class="d-none d-sm-inline">
+                    Previous
+                </span>
+
+            </a>
+
+
+            <div class="calendar-month-title">
+
+                <i class="bi bi-calendar3"></i>
+
+                <h2 class="mb-0">
+                    @Model.MonthName
+                </h2>
+
+            </div>
+
+
+            <a asp-controller="Consultation"
+               asp-action="Calendar"
+               asp-route-year="@nextMonth.Year"
+               asp-route-month="@nextMonth.Month"
+               class="calendar-navigation-btn">
+
+                <span class="d-none d-sm-inline">
+                    Next
+                </span>
+
+                <i class="bi bi-chevron-right"></i>
+
+            </a>
+
+        </div>
+
+
+        <!-- Calendar Body -->
+        <div class="consultation-calendar-body">
+
+            <!-- Day Names -->
+            <div class="calendar-week-header">
+
+                <div>Monday</div>
+                <div>Tuesday</div>
+                <div>Wednesday</div>
+                <div>Thursday</div>
+                <div>Friday</div>
+                <div>Saturday</div>
+                <div>Sunday</div>
+
+            </div>
+
+
+            <!-- Calendar Days -->
+            <div class="calendar-grid">
+
+                @for (int i = 0; i < 42; i++)
+                {
+                    var day = currentDay.AddDays(i);
+
+                    var isCurrentMonth =
+                        day.Month == Model.Month &&
+                        day.Year == Model.Year;
+
+                    var isToday =
+                        day.Date == DateTime.Today;
+
+                    var dayConsultations =
+                        Model.Consultations
+                            .Where(c => c.BookingDate.Date == day.Date)
+                            .OrderBy(c => c.BookingTime)
+                            .ToList();
+
+                    <div class="calendar-day @(isCurrentMonth ? "" : "calendar-day-muted") @(isToday ? "calendar-day-today" : "")">
+
+                        <div class="calendar-day-number">
+                            @day.Day
+                        </div>
+
+                        <div class="calendar-events">
+
+                            @foreach (var consultation in dayConsultations)
+                            {
+                                var statusClass =
+                                    consultation.Status switch
+                                    {
+                                        "Pending" => "calendar-event-pending",
+                                        "Approved" => "calendar-event-approved",
+                                        "Cancelled" => "calendar-event-cancelled",
+                                        "Completed" => "calendar-event-completed",
+                                        _ => "calendar-event-default"
+                                    };
+
+                                <a asp-controller="Consultation"
+                                   asp-action="Reschedule"
+                                   asp-route-id="@consultation.ConsultationID"
+                                   class="calendar-event @statusClass"
+                                   title="@consultation.Description">
+
+                                    <div class="calendar-event-time">
+                                        @consultation.BookingTime.ToString(@"hh\:mm")
+                                    </div>
+
+                                    <div class="calendar-event-client">
+                                        @consultation.ClientName
+                                    </div>
+
+                                    <div class="calendar-event-status">
+                                        @consultation.Status
+                                    </div>
+
+                                </a>
+                            }
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Calendar Legend -->
+    <div class="consultation-calendar-legend">
+
+        <span class="legend-title">
+            Status
+        </span>
+
+        <div class="calendar-legend-item">
+            <span class="calendar-legend-dot calendar-event-pending"></span>
+            Pending
+        </div>
+
+        <div class="calendar-legend-item">
+            <span class="calendar-legend-dot calendar-event-approved"></span>
+            Approved
+        </div>
+
+        <div class="calendar-legend-item">
+            <span class="calendar-legend-dot calendar-event-cancelled"></span>
+            Cancelled
+        </div>
+
+        <div class="calendar-legend-item">
+            <span class="calendar-legend-dot calendar-event-completed"></span>
+            Completed
+        </div>
+
+    </div>
+
+</div>

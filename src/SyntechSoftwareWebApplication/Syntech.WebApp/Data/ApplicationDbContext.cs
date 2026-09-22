@@ -69,6 +69,7 @@ namespace Syntech.WebApp.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectUpdate> ProjectUpdates { get; set; }
         public DbSet<Document> Documents { get; set; }
+        public DbSet<Consultation> Consultations { get; set; }
 
 
         protected override void OnModelCreating(
@@ -296,6 +297,46 @@ namespace Syntech.WebApp.Data
                 entity.HasOne(d => d.Project)
                     .WithMany()
                     .HasForeignKey(d => d.ProjectID)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // CONSULTATION
+            modelBuilder.Entity<Consultation>(entity =>
+            {
+                entity.ToTable("Consultation");
+
+                entity.HasKey(c => c.ConsultationID);
+
+                entity.Property(c => c.ConsultationID)
+                    .HasColumnName("consultationID");
+
+                entity.Property(c => c.BookingDate)
+                    .HasColumnName("bookingDate")
+                    .HasColumnType("date")
+                    .IsRequired();
+
+                entity.Property(c => c.BookingTime)
+                    .HasColumnName("bookingTime")
+                    .HasColumnType("time")
+                    .IsRequired();
+
+                entity.Property(c => c.Status)
+                    .HasColumnName("status")
+                    .HasMaxLength(30)
+                    .IsRequired();
+
+                entity.Property(c => c.ClientID)
+                    .HasColumnName("clientID")
+                    .IsRequired();
+
+                entity.Property(c => c.Description)
+                    .HasColumnName("description")
+                    .HasMaxLength(1000)
+                    .IsRequired();
+
+                entity.HasOne(c => c.Client)
+                    .WithMany()
+                    .HasForeignKey(c => c.ClientID)
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
