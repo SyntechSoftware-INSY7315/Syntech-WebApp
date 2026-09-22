@@ -2,8 +2,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Syntech.WebApp.Data;
 using Syntech.WebApp.Services;
+using Syntech.WebApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<OpenAISettings>(
+    builder.Configuration.GetSection("OpenAI"));
+
+builder.Services.AddScoped<IChatbotService, ChatbotService>();
 
 //
 // ============================================================================

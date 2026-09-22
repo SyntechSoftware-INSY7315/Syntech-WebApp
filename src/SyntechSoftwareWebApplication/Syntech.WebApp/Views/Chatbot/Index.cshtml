@@ -1,0 +1,234 @@
+﻿@{
+ViewData["Title"] = "AI Assistant";
+}
+
+<div class="container">
+
+<div class="ai-page-header">
+
+    <div class="ai-page-heading">
+
+        <div class="ai-title-icon">
+            <i class="bi bi-robot"></i>
+        </div>
+
+        <div>
+            <h1 class="ai-page-title">
+                Syntech Software AI Assistant
+            </h1>
+
+            <p class="ai-page-subtitle">
+                Ask a question about Syntech Software and the client portal.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="ai-chat-card">
+
+    <div class="ai-chat-header">
+
+        <div>
+            <h5 class="ai-chat-title">
+                Ask the Assistant
+            </h5>
+
+            <p class="ai-chat-subtitle">
+                Get quick answers about Syntech Software's services and the client portal.
+            </p>
+        </div>
+
+        <div class="ai-chat-header-icon">
+            <i class="bi bi-chat-dots"></i>
+        </div>
+
+    </div>
+
+    <div class="ai-chat-body">
+
+        <form id="chatbotForm">
+
+            @Html.AntiForgeryToken()
+
+            <div class="ai-form-group">
+
+                <label for="question" class="syntech-form-label">
+                    Your question
+                </label>
+
+                <textarea id="question"
+                          name="question"
+                          class="form-control ai-question-input"
+                          rows="4"
+                          maxlength="1000"
+                          placeholder="For example: How do I book a consultation?"
+                          required></textarea>
+
+                <div class="ai-form-help">
+                    <i class="bi bi-info-circle"></i>
+                    Maximum 1000 characters.
+                </div>
+
+            </div>
+
+            <div class="ai-form-actions">
+
+                <button type="submit"
+                        class="syntech-primary-btn ai-submit-btn"
+                        id="askAssistantButton">
+
+                    <span id="askButtonContent">
+                        <i class="bi bi-send me-2"></i>
+                        Ask Assistant
+                    </span>
+
+                    <span id="loadingContent"
+                          style="display: none;">
+                        <span class="ai-loading-spinner"
+                              aria-hidden="true"></span>
+                        Thinking...
+                    </span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+        <div id="responseContainer"
+             class="ai-response-container"
+             style="display: none;">
+
+            <div class="ai-response-header">
+                <div class="ai-response-icon">
+                    <i class="bi bi-robot"></i>
+                </div>
+
+                <h5>Assistant</h5>
+            </div>
+
+            <div id="response"
+                 class="ai-response">
+            </div>
+
+        </div>
+
+        <div id="errorContainer"
+             class="ai-error-alert"
+             style="display: none;">
+            <i class="bi bi-exclamation-circle"></i>
+            <span></span>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+@section Scripts
+{
+
+<script>
+    document
+        .getElementById("chatbotForm")
+        .addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+            const question =
+                document.getElementById("question").value.trim();
+
+            const responseContainer =
+                document.getElementById("responseContainer");
+
+            const responseElement =
+                document.getElementById("response");
+
+            const errorContainer =
+                document.getElementById("errorContainer");
+
+            const askAssistantButton =
+                document.getElementById("askAssistantButton");
+
+            const askButtonContent =
+                document.getElementById("askButtonContent");
+
+            const loadingContent =
+                document.getElementById("loadingContent");
+
+            if (!question) {
+                return;
+            }
+
+            responseContainer.style.display = "none";
+            errorContainer.style.display = "none";
+
+            // Show loading state
+            askAssistantButton.disabled = true;
+            askButtonContent.style.display = "none";
+            loadingContent.style.display = "inline";
+
+            const token =
+                document.querySelector(
+                    'input[name="__RequestVerificationToken"]'
+                ).value;
+
+            const formData = new URLSearchParams();
+
+            formData.append("question", question);
+            formData.append("__RequestVerificationToken", token);
+
+            try {
+
+                const response = await fetch(
+                    "/Chatbot/Ask",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/x-www-form-urlencoded"
+                        },
+                        body: formData
+                    });
+
+                if (!response.ok) {
+
+                    const error =
+                        await response.text();
+
+                    throw new Error(error);
+                }
+
+                const data =
+                    await response.json();
+
+                responseElement.textContent =
+                    data.response;
+
+                responseContainer.style.display =
+                    "block";
+
+            }
+            catch (error) {
+
+                errorContainer.querySelector("span").textContent =
+                    error.message ||
+                    "An error occurred while contacting the AI assistant.";
+
+                errorContainer.style.display =
+                    "flex";
+            }
+            finally {
+
+                // Restore button
+                askAssistantButton.disabled = false;
+                askButtonContent.style.display = "inline";
+                loadingContent.style.display = "none";
+            }
+        });
+</script>
+
+}
