@@ -70,6 +70,7 @@ namespace Syntech.WebApp.Data
         public DbSet<ProjectUpdate> ProjectUpdates { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<Consultation> Consultations { get; set; }
+        public DbSet<HelpArticle> HelpArticles { get; set; }
 
 
         protected override void OnModelCreating(
@@ -338,6 +339,44 @@ namespace Syntech.WebApp.Data
                     .WithMany()
                     .HasForeignKey(c => c.ClientID)
                     .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // HELP ARTICLE
+            modelBuilder.Entity<HelpArticle>(entity =>
+            {
+                entity.ToTable("HelpArticle");
+
+                entity.HasKey(h => h.ArticleID);
+
+                entity.Property(h => h.ArticleID)
+                    .HasColumnName("articleID");
+
+                entity.Property(h => h.Title)
+                    .HasColumnName("title")
+                    .HasMaxLength(200)
+                    .IsRequired();
+
+                entity.Property(h => h.Content)
+                    .HasColumnName("content")
+                    .HasColumnType("nvarchar(max)")
+                    .IsRequired();
+
+                entity.Property(h => h.Category)
+                    .HasColumnName("category")
+                    .HasMaxLength(100);
+
+                entity.Property(h => h.CreatedDate)
+                    .HasColumnName("createdDate")
+                    .HasColumnType("datetime")
+                    .IsRequired();
+
+                entity.Property(h => h.UpdatedDate)
+                    .HasColumnName("updatedDate")
+                    .HasColumnType("datetime");
+
+                entity.Property(h => h.IsActive)
+                    .HasColumnName("isActive")
+                    .IsRequired();
             });
 
             // DEVELOPER PROJECT
