@@ -1,0 +1,247 @@
+.ticket-scope {
+    --tk-navy: #0f1b2d;
+    --tk-navy-light: #16233a;
+    --tk-blue: #2563eb;
+    --tk-blue-light: #eaf1ff;
+    --tk-border: #e5e9f0;
+    --tk-muted: #6b7686;
+    --tk-radius: 12px;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+    color: #1c2433;
+}
+
+.ticket-scope .tk-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--tk-navy);
+    border-radius: var(--tk-radius);
+    padding: 1.1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.ticket-scope .tk-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.ticket-scope .tk-header-brand img {
+    height: 34px;
+    width: auto;
+    background: #fff;
+    border-radius: 6px;
+    padding: 2px 4px;
+}
+
+.ticket-scope .tk-header-title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.35rem;
+    margin: 0;
+}
+
+.ticket-scope .tk-header-subtitle {
+    color: #9fb0c8;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.ticket-scope .tk-btn-primary {
+    background: var(--tk-blue);
+    border: 1px solid var(--tk-blue);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.5rem 1.1rem;
+}
+
+.ticket-scope .tk-btn-primary:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    color: #fff;
+}
+
+.ticket-scope .tk-btn-outline {
+    background: #fff;
+    border: 1px solid var(--tk-border);
+    color: #1c2433;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.5rem 1.1rem;
+}
+
+.ticket-scope .tk-btn-outline:hover {
+    background: #f4f6f9;
+    color: #1c2433;
+}
+
+.ticket-scope .tk-card {
+    background: #fff;
+    border: 1px solid var(--tk-border);
+    border-radius: var(--tk-radius);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.ticket-scope .tk-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--tk-border);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.ticket-scope .tk-stat {
+    background: #fff;
+    border: 1px solid var(--tk-border);
+    border-radius: var(--tk-radius);
+    padding: 1.1rem;
+    text-align: center;
+}
+
+.ticket-scope .tk-stat-value {
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.ticket-scope .tk-stat-label {
+    color: var(--tk-muted);
+    font-size: 0.82rem;
+    margin-top: 0.35rem;
+}
+
+.ticket-scope .tk-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.ticket-scope .tk-pill-muted {
+    background: #f1f3f7;
+    color: #4b5565;
+}
+
+.ticket-scope .tk-pill-blue {
+    background: var(--tk-blue-light);
+    color: var(--tk-blue);
+}
+
+.ticket-scope .tk-badge-status-open { background: var(--tk-blue-light); color: var(--tk-blue); }
+.ticket-scope .tk-badge-status-inprogress { background: #fef3e2; color: #b45309; }
+.ticket-scope .tk-badge-status-resolved { background: #e8f7ee; color: #15803d; }
+.ticket-scope .tk-badge-status-closed { background: #f1f3f7; color: #4b5565; }
+
+.ticket-scope .tk-badge-priority-low { background: #e8f7ee; color: #15803d; }
+.ticket-scope .tk-badge-priority-medium { background: #fef3e2; color: #b45309; }
+.ticket-scope .tk-badge-priority-high { background: #fdecec; color: #c0281c; }
+
+.ticket-scope .tk-table {
+    width: 100%;
+    margin: 0;
+}
+
+.ticket-scope .tk-table thead th {
+    background: #f8f9fb;
+    color: var(--tk-muted);
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 700;
+    border-bottom: 1px solid var(--tk-border);
+    padding: 0.75rem 1rem;
+}
+
+.ticket-scope .tk-table tbody td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--tk-border);
+    vertical-align: middle;
+    font-size: 0.9rem;
+}
+
+.ticket-scope .tk-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.ticket-scope .tk-table tbody tr:hover {
+    background: #f8f9fb;
+}
+
+.ticket-scope .tk-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: var(--tk-blue-light);
+    color: var(--tk-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ticket-scope .tk-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.ticket-scope .tk-avatar-staff { background: var(--tk-blue); }
+.ticket-scope .tk-avatar-client { background: #4b5565; }
+
+.ticket-scope .tk-message {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--tk-border);
+    display: flex;
+    gap: 0.85rem;
+}
+
+.ticket-scope .tk-message-staff { background: #f8f9fb; }
+.ticket-scope .tk-message-client { background: #fff; }
+
+.ticket-scope .tk-message:last-child {
+    border-bottom: none;
+}
+
+.ticket-scope .tk-form-label {
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 0.35rem;
+}
+
+.ticket-scope .tk-form-control,
+.ticket-scope .tk-form-select,
+.ticket-scope textarea.tk-form-control {
+    border: 1px solid var(--tk-border);
+    border-radius: 8px;
+}
+
+.ticket-scope .tk-form-control:focus,
+.ticket-scope .tk-form-select:focus {
+    border-color: var(--tk-blue);
+    box-shadow: 0 0 0 3px var(--tk-blue-light);
+}
+
+.ticket-scope .tk-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--tk-muted);
+}
+
+.ticket-scope .tk-danger-card {
+    border-color: #f6c6c1 !important;
+}
