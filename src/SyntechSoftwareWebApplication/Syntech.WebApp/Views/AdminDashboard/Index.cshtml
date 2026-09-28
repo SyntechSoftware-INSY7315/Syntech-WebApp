@@ -4,291 +4,332 @@
     ViewData["Title"] = "Administrator Dashboard";
 }
 
-<div class="container mt-5">
+<div class="admin-page">
 
-    @* ================================================================
-       DASHBOARD HEADER
-       ================================================================ *@
+    <div class="admin-container">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- =========================================================
+             DASHBOARD HEADER
+             ========================================================= -->
 
-        <div>
+        <div class="dashboard-header">
 
-            <h1 class="mb-2">
-                Administrator Dashboard
-            </h1>
+            <div>
+                <span class="dashboard-eyebrow">
+                    ADMINISTRATION
+                </span>
 
-            <p class="text-muted mb-0">
-                Welcome, @User.Identity?.Name.
-                Manage and monitor the Syntech system from here.
-            </p>
+                <h1>
+                    Administrator Dashboard
+                </h1>
 
-        </div>
-
-
-        <div>
+                <p>
+                    Welcome, @User.Identity?.Name.
+                    Manage and monitor the Syntech system from here.
+                </p>
+            </div>
 
             <a asp-controller="UserManagement"
                asp-action="Index"
-               class="btn btn-primary">
-
+               class="primary-button">
                 Manage Users
-
             </a>
 
         </div>
 
-    </div>
+
+        <!-- =========================================================
+             SUCCESS MESSAGE
+             ========================================================= -->
+        @if (TempData["UserManagementSuccess"] != null)
+        {
+            <div class="system-alert success-alert">
+                <span class="alert-icon">✓</span>
+
+                <span>
+                    @TempData["UserManagementSuccess"]
+                </span>
+            </div>
+        }
 
 
-    @* ================================================================
-       SUCCESS MESSAGE
-       ================================================================ *@
+        <!-- =========================================================
+             ERROR MESSAGE
+             ========================================================= -->
+        @if (TempData["UserManagementError"] != null)
+        {
+            <div class="system-alert error-alert">
+                <span class="alert-icon">!</span>
 
-    @if (TempData["UserManagementSuccess"] != null)
-    {
-        <div class="alert alert-success"
-             role="alert">
-
-            @TempData["UserManagementSuccess"]
-
-        </div>
-    }
-
-
-    @* ================================================================
-       ERROR MESSAGE
-       ================================================================ *@
-
-    @if (TempData["UserManagementError"] != null)
-    {
-        <div class="alert alert-danger"
-             role="alert">
-
-            @TempData["UserManagementError"]
-
-        </div>
-    }
+                <span>
+                    @TempData["UserManagementError"]
+                </span>
+            </div>
+        }
 
 
-    @* ================================================================
-       USER STATISTICS
-       ================================================================ *@
+        <!-- =========================================================
+             OVERVIEW STATISTICS
+             ========================================================= -->
 
-    <div class="row g-4 mb-4">
+        <div class="statistics-grid">
 
-        @* TOTAL USERS *@
+            <!-- TOTAL USERS -->
 
-        <div class="col-md-6 col-lg-3">
+            <div class="stat-card">
 
-            <div class="card shadow-sm h-100">
+                <div class="stat-content">
 
-                <div class="card-body">
-
-                    <p class="text-muted mb-2">
+                    <span class="stat-label">
                         Total Users
-                    </p>
+                    </span>
 
-                    <h2 class="display-6 mb-0">
+                    <strong class="stat-number">
                         @Model.TotalUsers
-                    </h2>
+                    </strong>
 
+                    <span class="stat-description">
+                        Registered accounts
+                    </span>
+
+                </div>
+
+                <div class="stat-icon users-icon">
+                    U
                 </div>
 
             </div>
 
-        </div>
 
+            <!-- ACTIVE USERS -->
 
-        @* ACTIVE USERS *@
+            <div class="stat-card">
 
-        <div class="col-md-6 col-lg-3">
+                <div class="stat-content">
 
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <p class="text-muted mb-2">
+                    <span class="stat-label">
                         Active Users
-                    </p>
+                    </span>
 
-                    <h2 class="display-6 text-success mb-0">
+                    <strong class="stat-number active-number">
                         @Model.ActiveUsers
-                    </h2>
+                    </strong>
 
+                    <span class="stat-description">
+                        Currently active
+                    </span>
+
+                </div>
+
+                <div class="stat-icon active-icon">
+                    ✓
                 </div>
 
             </div>
 
-        </div>
 
+            <!-- DEACTIVATED USERS -->
 
-        @* DEACTIVATED USERS *@
+            <div class="stat-card">
 
-        <div class="col-md-6 col-lg-3">
+                <div class="stat-content">
 
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <p class="text-muted mb-2">
+                    <span class="stat-label">
                         Deactivated
-                    </p>
+                    </span>
 
-                    <h2 class="display-6 mb-0">
+                    <strong class="stat-number">
                         @Model.DeactivatedUsers
+                    </strong>
+
+                    <span class="stat-description">
+                        Inactive accounts
+                    </span>
+
+                </div>
+
+                <div class="stat-icon inactive-icon">
+                    −
+                </div>
+
+            </div>
+
+
+            <!-- ADMINISTRATORS -->
+
+            <div class="stat-card">
+
+                <div class="stat-content">
+
+                    <span class="stat-label">
+                        Administrators
+                    </span>
+
+                    <strong class="stat-number">
+                        @Model.AdminCount
+                    </strong>
+
+                    <span class="stat-description">
+                        Administrative accounts
+                    </span>
+
+                </div>
+
+                <div class="stat-icon admin-icon">
+                    A
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             ROLE BREAKDOWN
+             ========================================================= -->
+
+        <div class="section-heading">
+
+            <div>
+                <h2>User Overview</h2>
+
+                <p>
+                    Breakdown of registered users by account type.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="role-grid">
+
+            <!-- ADMINISTRATORS -->
+
+            <div class="role-card">
+
+                <div class="role-card-top">
+
+                    <div class="role-icon admin-role-icon">
+                        A
+                    </div>
+
+                    <span class="role-badge admin-badge">
+                        Admin
+                    </span>
+
+                </div>
+
+                <strong class="role-number">
+                    @Model.AdminCount
+                </strong>
+
+                <h3>
+                    Administrators
+                </h3>
+
+                <p>
+                    Users with administrative privileges.
+                </p>
+
+            </div>
+
+
+            <!-- DEVELOPERS -->
+
+            <div class="role-card">
+
+                <div class="role-card-top">
+
+                    <div class="role-icon developer-role-icon">
+                        D
+                    </div>
+
+                    <span class="role-badge developer-badge">
+                        Developer
+                    </span>
+
+                </div>
+
+                <strong class="role-number">
+                    @Model.DeveloperCount
+                </strong>
+
+                <h3>
+                    Developers
+                </h3>
+
+                <p>
+                    Developers registered in the system.
+                </p>
+
+            </div>
+
+
+            <!-- CLIENTS -->
+
+            <div class="role-card">
+
+                <div class="role-card-top">
+
+                    <div class="role-icon client-role-icon">
+                        C
+                    </div>
+
+                    <span class="role-badge client-badge">
+                        Client
+                    </span>
+
+                </div>
+
+                <strong class="role-number">
+                    @Model.ClientCount
+                </strong>
+
+                <h3>
+                    Clients
+                </h3>
+
+                <p>
+                    Clients registered in the system.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             RECENT USERS
+             ========================================================= -->
+
+        <div class="content-card">
+
+            <div class="content-card-header">
+
+                <div>
+                    <h2>
+                        Recent Users
                     </h2>
 
+                    <p>
+                        The latest users registered on the platform.
+                    </p>
                 </div>
-
-            </div>
-
-        </div>
-
-
-        @* ADMINISTRATORS *@
-
-        <div class="col-md-6 col-lg-3">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <p class="text-muted mb-2">
-                        Administrators
-                    </p>
-
-                    <h2 class="display-6 mb-0">
-                        @Model.AdminCount
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    @* ================================================================
-       ROLE BREAKDOWN
-       ================================================================ *@
-
-    <div class="row g-4 mb-4">
-
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h5 class="card-title">
-                        Administrators
-                    </h5>
-
-                    <p class="display-6">
-                        @Model.AdminCount
-                    </p>
-
-                    <p class="text-muted mb-0">
-                        Users with administrative privileges.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h5 class="card-title">
-                        Developers
-                    </h5>
-
-                    <p class="display-6">
-                        @Model.DeveloperCount
-                    </p>
-
-                    <p class="text-muted mb-0">
-                        Developers registered in the system.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h5 class="card-title">
-                        Clients
-                    </h5>
-
-                    <p class="display-6">
-                        @Model.ClientCount
-                    </p>
-
-                    <p class="text-muted mb-0">
-                        Clients registered in the system.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    @* ================================================================
-       RECENT USERS
-       ================================================================ *@
-
-    <div class="card shadow-sm mb-4">
-
-        <div class="card-header">
-
-            <div class="d-flex justify-content-between align-items-center">
-
-                <h4 class="mb-0">
-                    Recent Users
-                </h4>
-
 
                 <a asp-controller="UserManagement"
                    asp-action="Index"
-                   class="btn btn-sm btn-outline-primary">
-
+                   class="secondary-button">
                     View All Users
-
                 </a>
 
             </div>
 
-        </div>
-
-
-        <div class="card-body">
 
             @if (Model.RecentUsers.Any())
             {
-                <div class="table-responsive">
+                <div class="table-container">
 
-                    <table class="table table-hover align-middle mb-0">
+                    <table class="admin-table">
 
                         <thead>
 
@@ -318,63 +359,60 @@
 
                         </thead>
 
-
                         <tbody>
 
                             @foreach (var user in Model.RecentUsers)
                             {
                                 <tr>
 
-                                    <td>
-                                        @user.UserId
+                                    <td class="user-id">
+                                        #@user.UserId
                                     </td>
 
-
-                                    <td>
+                                    <td class="user-name">
                                         @user.Name
                                     </td>
 
-
-                                    <td>
+                                    <td class="user-email">
                                         @user.Email
                                     </td>
-
 
                                     <td>
 
                                         @if (user.Role == "Admin")
                                         {
-                                            <span class="badge bg-danger">
+                                            <span class="table-badge admin-badge">
                                                 Admin
                                             </span>
                                         }
                                         else if (user.Role == "Developer")
                                         {
-                                            <span class="badge bg-primary">
+                                            <span class="table-badge developer-badge">
                                                 Developer
                                             </span>
                                         }
                                         else
                                         {
-                                            <span class="badge bg-success">
+                                            <span class="table-badge client-badge">
                                                 Client
                                             </span>
                                         }
 
                                     </td>
 
-
                                     <td>
 
                                         @if (user.IsActive)
                                         {
-                                            <span class="badge bg-success">
+                                            <span class="table-badge active-badge">
+                                                <span class="status-dot"></span>
                                                 Active
                                             </span>
                                         }
                                         else
                                         {
-                                            <span class="badge bg-secondary">
+                                            <span class="table-badge inactive-badge">
+                                                <span class="status-dot"></span>
                                                 Deactivated
                                             </span>
                                         }
@@ -392,45 +430,101 @@
             }
             else
             {
-                <p class="text-muted mb-0">
-                    No users have been registered yet.
-                </p>
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        U
+                    </div>
+
+                    <h3>
+                        No Users Yet
+                    </h3>
+
+                    <p>
+                        No users have been registered on the platform yet.
+                    </p>
+
+                    <a asp-controller="UserManagement"
+                       asp-action="Create"
+                       class="primary-button">
+                        Create First User
+                    </a>
+
+                </div>
             }
 
         </div>
 
-    </div>
+
+        <!-- =========================================================
+             QUICK ACTIONS
+             ========================================================= -->
+
+        <div class="content-card quick-actions-card">
+
+            <div class="content-card-header">
+
+                <div>
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                    <p>
+                        Common administrator tasks.
+                    </p>
+                </div>
+
+            </div>
 
 
-    @* ================================================================
-       QUICK ACTIONS
-       ================================================================ *@
-
-    <div class="card shadow-sm">
-
-        <div class="card-body">
-
-            <h4 class="mb-3">
-                Quick Actions
-            </h4>
-
-
-            <div class="d-flex gap-2 flex-wrap">
+            <div class="quick-actions">
 
                 <a asp-controller="UserManagement"
                    asp-action="Index"
-                   class="btn btn-primary">
+                   class="action-card">
 
-                    Manage Users
+                    <div class="action-icon">
+                        U
+                    </div>
+
+                    <div>
+                        <strong>
+                            Manage Users
+                        </strong>
+
+                        <span>
+                            View and manage registered accounts
+                        </span>
+                    </div>
+
+                    <span class="action-arrow">
+                        →
+                    </span>
 
                 </a>
 
 
                 <a asp-controller="UserManagement"
                    asp-action="Create"
-                   class="btn btn-outline-primary">
+                   class="action-card">
 
-                    Create User
+                    <div class="action-icon">
+                        +
+                    </div>
+
+                    <div>
+                        <strong>
+                            Create User
+                        </strong>
+
+                        <span>
+                            Add a new client or developer account
+                        </span>
+                    </div>
+
+                    <span class="action-arrow">
+                        →
+                    </span>
 
                 </a>
 
@@ -441,3 +535,658 @@
     </div>
 
 </div>
+
+
+<!-- =============================================================
+     ADMIN DASHBOARD STYLING
+     ============================================================= -->
+
+<style>
+
+    .admin-page {
+        min-height: calc(100vh - 130px);
+        background: #f8fafc;
+        padding: 42px 20px 60px;
+    }
+
+    .admin-container {
+        width: 100%;
+        max-width: 1160px;
+        margin: 0 auto;
+    }
+
+
+    /* =========================================================
+           HEADER
+           ========================================================= */
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .dashboard-eyebrow {
+        display: inline-block;
+        margin-bottom: 7px;
+        color: #4169e1;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .dashboard-header h1 {
+        margin: 0 0 7px;
+        color: #172033;
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .dashboard-header p {
+        margin: 0;
+        color: #64748b;
+        font-size: 15px;
+    }
+
+
+    /* =========================================================
+           BUTTONS
+           ========================================================= */
+
+    .primary-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 10px 18px;
+        border-radius: 8px;
+        background: #4169e1;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .primary-button:hover {
+            background: #3157d5;
+            color: #ffffff;
+            text-decoration: none;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(65, 105, 225, 0.22);
+        }
+
+    .secondary-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 38px;
+        padding: 8px 15px;
+        border: 1px solid #4169e1;
+        border-radius: 7px;
+        background: #ffffff;
+        color: #4169e1;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+        .secondary-button:hover {
+            background: #4169e1;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+
+    /* =========================================================
+           ALERTS
+           ========================================================= */
+
+    .system-alert {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 16px;
+        margin-bottom: 22px;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .success-alert {
+        border: 1px solid #b7ebd0;
+        background: #f0fdf4;
+        color: #166534;
+    }
+
+    .error-alert {
+        border: 1px solid #fecaca;
+        background: #fef2f2;
+        color: #991b1b;
+    }
+
+    .alert-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: currentColor;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+
+    /* =========================================================
+           STATISTICS
+           ========================================================= */
+
+    .statistics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 38px;
+    }
+
+    .stat-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        min-height: 145px;
+        padding: 22px;
+        border: 1px solid #e2e8f0;
+        border-radius: 11px;
+        background: #ffffff;
+        box-shadow: 0 3px 14px rgba(15, 23, 42, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(15, 23, 42, 0.08);
+        }
+
+    .stat-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stat-label {
+        margin-bottom: 12px;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .stat-number {
+        margin-bottom: 7px;
+        color: #172033;
+        font-size: 34px;
+        line-height: 1;
+        font-weight: 500;
+    }
+
+    .active-number {
+        color: #059669;
+    }
+
+    .stat-description {
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    .stat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 9px;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .users-icon {
+        background: #eef2ff;
+        color: #4169e1;
+    }
+
+    .active-icon {
+        background: #ecfdf5;
+        color: #059669;
+    }
+
+    .inactive-icon {
+        background: #f1f5f9;
+        color: #64748b;
+    }
+
+    .admin-icon {
+        background: #fff7ed;
+        color: #ea580c;
+    }
+
+
+    /* =========================================================
+           SECTION HEADINGS
+           ========================================================= */
+
+    .section-heading {
+        margin-bottom: 16px;
+    }
+
+        .section-heading h2 {
+            margin: 0 0 5px;
+            color: #172033;
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+
+    /* =========================================================
+           ROLE CARDS
+           ========================================================= */
+
+    .role-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-bottom: 38px;
+    }
+
+    .role-card {
+        padding: 22px;
+        border: 1px solid #e2e8f0;
+        border-radius: 11px;
+        background: #ffffff;
+        box-shadow: 0 3px 14px rgba(15, 23, 42, 0.05);
+    }
+
+    .role-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .role-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 9px;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .admin-role-icon {
+        background: #fff7ed;
+        color: #ea580c;
+    }
+
+    .developer-role-icon {
+        background: #eef2ff;
+        color: #4169e1;
+    }
+
+    .client-role-icon {
+        background: #ecfdf5;
+        color: #059669;
+    }
+
+    .role-badge,
+    .table-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    .role-badge {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .table-badge {
+        padding: 5px 9px;
+        font-size: 11px;
+    }
+
+    .admin-badge {
+        background: #fff7ed;
+        color: #c2410c;
+    }
+
+    .developer-badge {
+        background: #eef2ff;
+        color: #4338ca;
+    }
+
+    .client-badge {
+        background: #ecfdf5;
+        color: #047857;
+    }
+
+    .active-badge {
+        background: #ecfdf5;
+        color: #047857;
+    }
+
+    .inactive-badge {
+        background: #f1f5f9;
+        color: #64748b;
+    }
+
+    .role-number {
+        display: block;
+        margin-bottom: 5px;
+        color: #172033;
+        font-size: 32px;
+        font-weight: 500;
+    }
+
+    .role-card h3 {
+        margin: 0 0 7px;
+        color: #172033;
+        font-size: 16px;
+        font-weight: 650;
+    }
+
+    .role-card p {
+        margin: 0;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+
+    /* =========================================================
+           CONTENT CARD
+           ========================================================= */
+
+    .content-card {
+        margin-bottom: 24px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        border-radius: 11px;
+        background: #ffffff;
+        box-shadow: 0 3px 14px rgba(15, 23, 42, 0.05);
+    }
+
+    .content-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 21px 22px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+        .content-card-header h2 {
+            margin: 0 0 5px;
+            color: #172033;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .content-card-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+
+    /* =========================================================
+           TABLE
+           ========================================================= */
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .admin-table th {
+            padding: 13px 18px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-table td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #eef2f7;
+            color: #334155;
+            font-size: 13px;
+        }
+
+        .admin-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-table tbody tr {
+            transition: background 0.15s ease;
+        }
+
+            .admin-table tbody tr:hover {
+                background: #f8fafc;
+            }
+
+    .user-id {
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    .user-name {
+        color: #172033;
+        font-weight: 600;
+    }
+
+    .user-email {
+        color: #64748b;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+
+
+    /* =========================================================
+           EMPTY STATE
+           ========================================================= */
+
+    .empty-state {
+        padding: 55px 25px;
+        text-align: center;
+    }
+
+    .empty-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        background: #eef2ff;
+        color: #4169e1;
+        font-weight: 700;
+    }
+
+    .empty-state h3 {
+        margin: 0 0 7px;
+        color: #172033;
+        font-size: 18px;
+    }
+
+    .empty-state p {
+        margin: 0 0 20px;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+
+    /* =========================================================
+           QUICK ACTIONS
+           ========================================================= */
+
+    .quick-actions-card {
+        margin-bottom: 0;
+    }
+
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        padding: 20px 22px 22px;
+    }
+
+    .action-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px;
+        border: 1px solid #e2e8f0;
+        border-radius: 9px;
+        background: #ffffff;
+        color: inherit;
+        text-decoration: none;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+        .action-card:hover {
+            border-color: #b8c6f5;
+            background: #f8faff;
+            color: inherit;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+    .action-icon {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: #eef2ff;
+        color: #4169e1;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .action-card div:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+    }
+
+    .action-card strong {
+        color: #172033;
+        font-size: 14px;
+    }
+
+    .action-card span {
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .action-card .action-arrow {
+        color: #4169e1;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+
+    /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+    @@media (max-width: 992px) {
+
+        .statistics-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .role-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+
+    @@media (max-width: 768px) {
+
+        .admin-page {
+            padding: 30px 15px 45px;
+        }
+
+        .dashboard-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+            .dashboard-header h1 {
+                font-size: 28px;
+            }
+
+            .dashboard-header .primary-button {
+                width: 100%;
+            }
+
+        .quick-actions {
+            grid-template-columns: 1fr;
+        }
+
+        .content-card-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .secondary-button {
+            width: 100%;
+        }
+    }
+
+
+    @@media (max-width: 576px) {
+
+        .statistics-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-card {
+            min-height: 125px;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 12px;
+        }
+    }
+
+</style>

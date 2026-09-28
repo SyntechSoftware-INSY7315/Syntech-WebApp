@@ -4,202 +4,432 @@
     ViewData["Title"] = "Create Account";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-7 col-lg-6">
+<div class="auth-page">
 
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
+    <div class="auth-container register-container">
 
-                    <h1 class="text-center mb-4">
-                        Create Your Account
-                    </h1>
+        <div class="auth-card">
 
-                    <p class="text-muted text-center mb-4">
-                        Register for access to the Syntech Software platform.
-                    </p>
+            <!-- =========================================================
+                 BRANDING
+                 ========================================================= -->
 
+            <div class="auth-brand">
 
-                    <form asp-controller="Account"
-                          asp-action="Register"
-                          method="post">
+                <img src="~/images/syntech-logo.png"
+                     alt="Syntech Software"
+                     class="auth-logo" />
 
-                        @*
-                        Anti-forgery protection is generated automatically
-                        for this form.
+                <h1>Create Your Account</h1>
 
-                        The AccountController's [ValidateAntiForgeryToken]
-                        attribute verifies the token when the form is
-                        submitted.
-                    *@
-                        @Html.AntiForgeryToken()
+                <p>
+                    Register for access to the Syntech Software platform.
+                </p>
+
+            </div>
 
 
-                        @* Display general validation errors. *@
-                        <div asp-validation-summary="ModelOnly"
-                             class="text-danger mb-3">
-                        </div>
+            <!-- =========================================================
+                 GENERAL VALIDATION ERRORS
+                 ========================================================= -->
+
+            <div asp-validation-summary="ModelOnly"
+                 class="auth-alert auth-alert-error"
+                 role="alert">
+            </div>
 
 
-                        @* =====================================================
-                       NAME
-                       ===================================================== *@
+            <!-- =========================================================
+                 REGISTRATION FORM
+                 ========================================================= -->
 
-                        <div class="mb-3">
+            <form asp-controller="Account"
+                  asp-action="Register"
+                  method="post"
+                  class="auth-form">
 
-                            <label asp-for="Name"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="Name"
-                                   class="form-control"
-                                   autocomplete="name"
-                                   placeholder="Enter your full name" />
-
-                            <span asp-validation-for="Name"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
+                @Html.AntiForgeryToken()
 
 
-                        @* =====================================================
-                       EMAIL
-                       ===================================================== *@
+                <!-- =====================================================
+                     FULL NAME
+                     ===================================================== -->
 
-                        <div class="mb-3">
+                <div class="auth-field">
 
-                            <label asp-for="Email"
-                                   class="form-label">
-                            </label>
+                    <label asp-for="Name"
+                           class="auth-label">
+                    </label>
 
-                            <input asp-for="Email"
-                                   class="form-control"
-                                   autocomplete="email"
-                                   placeholder="Enter your email address" />
+                    <input asp-for="Name"
+                           class="auth-input"
+                           autocomplete="name"
+                           placeholder="Enter your full name" />
 
-                            <span asp-validation-for="Email"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-
-                        @* =====================================================
-                       PASSWORD
-                       ===================================================== *@
-
-                        <div class="mb-3">
-
-                            <label asp-for="Password"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="Password"
-                                   class="form-control"
-                                   autocomplete="new-password"
-                                   placeholder="Create a password" />
-
-                            <span asp-validation-for="Password"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-
-                        @* =====================================================
-                       CONFIRM PASSWORD
-                       ===================================================== *@
-
-                        <div class="mb-3">
-
-                            <label asp-for="ConfirmPassword"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="ConfirmPassword"
-                                   class="form-control"
-                                   autocomplete="new-password"
-                                   placeholder="Confirm your password" />
-
-                            <span asp-validation-for="ConfirmPassword"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-
-                        @* =====================================================
-                       ACCOUNT TYPE
-                       ===================================================== *@
-
-                        <div class="mb-4">
-
-                            <label asp-for="Role"
-                                   class="form-label">
-                            </label>
-
-                            <select asp-for="Role"
-                                    class="form-select">
-
-                                <option value="">
-                                    -- Select Account Type --
-                                </option>
-
-                                <option value="Client">
-                                    Client
-                                </option>
-
-                                <option value="Developer">
-                                    Developer
-                                </option>
-
-                            </select>
-
-                            <span asp-validation-for="Role"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-
-                        @* =====================================================
-                       SUBMIT
-                       ===================================================== *@
-
-                        <div class="d-grid">
-
-                            <button type="submit"
-                                    class="btn btn-primary">
-                                Create Account
-                            </button>
-
-                        </div>
-
-                    </form>
-
-
-                    <hr class="my-4" />
-
-
-                    <p class="text-center mb-0">
-
-                        Already have an account?
-
-                        <a asp-controller="Account"
-                           asp-action="Login">
-                            Log in
-                        </a>
-
-                    </p>
+                    <span asp-validation-for="Name"
+                          class="auth-validation">
+                    </span>
 
                 </div>
+
+
+                <!-- =====================================================
+                     EMAIL
+                     ===================================================== -->
+
+                <div class="auth-field">
+
+                    <label asp-for="Email"
+                           class="auth-label">
+                    </label>
+
+                    <input asp-for="Email"
+                           class="auth-input"
+                           autocomplete="email"
+                           placeholder="Enter your email address" />
+
+                    <span asp-validation-for="Email"
+                          class="auth-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- =====================================================
+                     PASSWORD
+                     ===================================================== -->
+
+                <div class="auth-field">
+
+                    <label asp-for="Password"
+                           class="auth-label">
+                    </label>
+
+                    <input asp-for="Password"
+                           class="auth-input"
+                           autocomplete="new-password"
+                           placeholder="Create a password" />
+
+                    <span asp-validation-for="Password"
+                          class="auth-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- =====================================================
+                     CONFIRM PASSWORD
+                     ===================================================== -->
+
+                <div class="auth-field">
+
+                    <label asp-for="ConfirmPassword"
+                           class="auth-label">
+                    </label>
+
+                    <input asp-for="ConfirmPassword"
+                           class="auth-input"
+                           autocomplete="new-password"
+                           placeholder="Confirm your password" />
+
+                    <span asp-validation-for="ConfirmPassword"
+                          class="auth-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- =====================================================
+                     ACCOUNT TYPE
+                     ===================================================== -->
+
+                <div class="auth-field auth-role-field">
+
+                    <label asp-for="Role"
+                           class="auth-label">
+                    </label>
+
+                    <select asp-for="Role"
+                            class="auth-input auth-select">
+
+                        <option value="">
+                            -- Select Account Type --
+                        </option>
+
+                        <option value="Client">
+                            Client
+                        </option>
+
+                        <option value="Developer">
+                            Developer
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="Role"
+                          class="auth-validation">
+                    </span>
+
+                </div>
+
+
+                <!-- =====================================================
+                     SUBMIT
+                     ===================================================== -->
+
+                <button type="submit"
+                        class="auth-submit">
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <!-- =========================================================
+                 LOGIN LINK
+                 ========================================================= -->
+
+            <div class="auth-divider">
+                <span>Already registered?</span>
+            </div>
+
+            <div class="auth-register">
+
+                <p>
+                    Already have a Syntech account?
+                </p>
+
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="auth-register-link">
+                    Sign in to your account
+                </a>
+
             </div>
 
         </div>
+
     </div>
 
 </div>
+
+
+<!-- =============================================================
+     PAGE-SPECIFIC STYLING
+     ============================================================= -->
+
+<style>
+
+    .auth-page {
+        min-height: calc(100vh - 160px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 45px 20px 55px;
+        background: #f8fafc;
+    }
+
+    .auth-container {
+        width: 100%;
+        max-width: 480px;
+    }
+
+    .register-container {
+        max-width: 520px;
+    }
+
+    .auth-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 40px 44px;
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .auth-brand {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .auth-logo {
+        width: 58px;
+        height: 58px;
+        object-fit: contain;
+        margin-bottom: 14px;
+    }
+
+    .auth-brand h1 {
+        margin: 0 0 8px;
+        color: #172033;
+        font-size: 29px;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+    }
+
+    .auth-brand p {
+        margin: 0;
+        color: #64748b;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .auth-form {
+        margin-top: 4px;
+    }
+
+    .auth-field {
+        margin-bottom: 19px;
+    }
+
+    .auth-role-field {
+        margin-bottom: 24px;
+    }
+
+    .auth-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #172033;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .auth-input {
+        width: 100%;
+        min-height: 46px;
+        padding: 11px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #172033;
+        font-size: 14px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .auth-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #4169e1;
+            box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.12);
+        }
+
+    .auth-select {
+        cursor: pointer;
+        appearance: auto;
+    }
+
+    .auth-validation {
+        display: block;
+        margin-top: 6px;
+        color: #dc3545;
+        font-size: 13px;
+    }
+
+    .auth-submit {
+        width: 100%;
+        min-height: 46px;
+        border: none;
+        border-radius: 8px;
+        background: #4169e1;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .auth-submit:hover {
+            background: #3157d5;
+            box-shadow: 0 5px 14px rgba(65, 105, 225, 0.22);
+            transform: translateY(-1px);
+        }
+
+        .auth-submit:active {
+            transform: translateY(0);
+        }
+
+    .auth-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 28px 0 19px;
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+    .auth-register {
+        text-align: center;
+    }
+
+        .auth-register p {
+            margin: 0 0 7px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+    .auth-register-link {
+        color: #4169e1;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .auth-register-link:hover {
+            color: #3157d5;
+            text-decoration: underline;
+        }
+
+    .auth-alert {
+        padding: 12px 14px;
+        margin-bottom: 22px;
+        border-radius: 8px;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .auth-alert-error {
+        border: 1px solid #f5c2c7;
+        background: #fff5f5;
+        color: #b42318;
+    }
+
+        .auth-alert-error:empty {
+            display: none;
+        }
+
+    @@media (max-width: 576px) {
+
+        .auth-page {
+            padding: 30px 15px 40px;
+        }
+
+        .auth-card {
+            padding: 32px 24px;
+            border-radius: 12px;
+        }
+
+        .auth-brand h1 {
+            font-size: 26px;
+        }
+
+        .auth-logo {
+            width: 52px;
+            height: 52px;
+        }
+    }
+
+</style>
+
 
 @section Scripts
 {
