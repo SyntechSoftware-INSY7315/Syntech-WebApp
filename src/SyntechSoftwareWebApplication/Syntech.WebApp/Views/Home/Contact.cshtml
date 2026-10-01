@@ -1,0 +1,216 @@
+﻿@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="container">
+
+    <section class="syntech-public-page">
+
+        <!-- PAGE HEADER -->
+        <div class="text-center syntech-public-page-header">
+
+            <span class="text-uppercase fw-bold syntech-section-label">
+                Get in Touch
+            </span>
+
+            <h1 class="display-5 fw-bold mt-2 syntech-section-title">
+                Contact <span>Us</span>
+            </h1>
+
+            <p class="lead text-muted mx-auto">
+                Get in touch with our team for inquiries, consultations, or support.
+                We respond within 1 business day.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- CONTACT INFORMATION -->
+            <div class="col-lg-5">
+
+                <div class="syntech-contact-info">
+
+                    <h2 class="h3 fw-bold">
+                        Let's Talk
+                    </h2>
+
+                    <p>
+                        Whether you have a project in mind, a question about our services,
+                        or need technical support &mdash; we'd love to hear from you.
+                    </p>
+
+
+                    <!-- SOCIAL LINKS -->
+                    <div class="syntech-contact-socials">
+
+                        <a href="https://www.instagram.com/syntechsoftware_/"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="syntech-social-btn">
+                            <i class="bi bi-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+
+                        <a href="https://api.whatsapp.com/send/?phone=27695559192&text&type=phone_number&app_absent=0"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="syntech-social-btn">
+                            <i class="bi bi-whatsapp"></i>
+                            <span>WhatsApp</span>
+                        </a>
+
+                    </div>
+
+
+                    <!-- CONTACT DETAILS -->
+                    <div class="mt-4">
+
+                        <div class="syntech-contact-detail">
+
+                            <div class="syntech-contact-detail-icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+
+                            <div>
+                                <div class="syntech-contact-detail-label">
+                                    Location
+                                </div>
+
+                                <div>
+                                    Johannesburg, South Africa
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="syntech-contact-detail">
+
+                            <div class="syntech-contact-detail-icon">
+                                <i class="bi bi-clock"></i>
+                            </div>
+
+                            <div>
+                                <div class="syntech-contact-detail-label">
+                                    Response Time
+                                </div>
+
+                                <div>
+                                    Within 1 business day
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CLIENT PORTAL -->
+                    <div class="syntech-contact-portal">
+
+                        <div class="small mb-3">
+                            Already a client?
+                        </div>
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <a asp-controller="Profile"
+                               asp-action="Index"
+                               class="syntech-light-outline-btn">
+                                <i class="bi bi-person me-2"></i>
+                                My Account
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account"
+                               asp-action="Login"
+                               class="syntech-light-outline-btn">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>
+                                Log into Client Portal
+                            </a>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTACT ACTIONS -->
+            <div class="col-lg-7">
+
+                <div class="syntech-contact-card">
+
+                    <h2 class="h3 fw-bold mb-2">
+                        Start a Conversation
+                    </h2>
+
+                    <p class="text-muted mb-4">
+                        Book a free consultation and let our team design the perfect
+                        technical solution for your business.
+                    </p>
+
+
+                    <div class="syntech-contact-option">
+
+                        <div class="syntech-contact-option-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+
+                        <div>
+
+                            <h3 class="h5 fw-bold">
+                                Book a Consultation
+                            </h3>
+
+                            <p class="text-muted">
+                                Discuss your project, services, or existing project support
+                                with the Syntech Software team.
+                            </p>
+
+                            <a asp-controller="Consultation"
+                               asp-action="Create"
+                               class="syntech-primary-btn">
+                                <i class="bi bi-calendar-plus me-2"></i>
+                                Request Consultation
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="syntech-contact-option">
+
+                        <div class="syntech-contact-option-icon">
+                            <i class="bi bi-headset"></i>
+                        </div>
+
+                        <div>
+
+                            <h3 class="h5 fw-bold">
+                                Existing Project Support
+                            </h3>
+
+                            <p class="text-muted mb-0">
+                                Existing clients can use the client portal to access
+                                support and manage their projects.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

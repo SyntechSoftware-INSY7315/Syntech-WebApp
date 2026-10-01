@@ -23,23 +23,26 @@ namespace Syntech.WebApp.Controllers
             _logger = logger;
         }
 
-        /// <summary>
-        /// Displays the application's home page.
-        /// </summary>
-        /// <returns>
-        /// The Home/Index view.
-        /// </returns>
         public IActionResult Index()
         {
             return View();
         }
 
-        /// <summary>
-        /// Displays the application's privacy page.
-        /// </summary>
-        /// <returns>
-        /// The Home/Privacy view.
-        /// </returns>
+        public IActionResult Services()
+        {
+            return View();
+        }
+
+        public IActionResult Portfolio()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -1,8 +1,410 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+
+    <!-- HERO SECTION -->
+    <section class="syntech-home-section">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-7">
+
+                <span class="badge rounded-pill mb-3 syntech-home-badge">
+                    <i class="bi bi-lightning-charge me-1"></i>
+                    Your Technology Partner for the Long Haul
+                </span>
+
+                <h1 class="display-4 fw-bold mb-3 syntech-home-title">
+                    Innovative <span>Software</span><br />
+                    Solutions
+                </h1>
+
+                <p class="lead text-muted mb-4">
+                    Syntech Software (Pty) Ltd is a South African software company specializing in
+                    delivering custom digital solutions &mdash; from dynamic web platforms and mobile
+                    applications to cutting-edge Industrial IoT and Robotic Process Automation systems.
+
+                    Our multidisciplinary team combines technical depth with business insight to
+                    create solutions that don't just function &mdash; they drive measurable results.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2 mb-5">
+
+                    <a asp-controller="Home"
+                       asp-action="Services"
+                       class="syntech-primary-btn">
+                        <i class="bi bi-grid me-2"></i>
+                        Explore Services
+                    </a>
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Ticket"
+                           asp-action="Index"
+                           class="syntech-outline-btn">
+                            <i class="bi bi-ticket-perforated me-2"></i>
+                            Go to Support Tickets
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account"
+                           asp-action="Register"
+                           class="syntech-outline-btn">
+                            <i class="bi bi-arrow-right-circle me-2"></i>
+                            Start Your Project
+                        </a>
+                    }
+
+                </div>
+
+                <div class="row g-4">
+
+                    <div class="col-sm-4">
+                        <div class="syntech-home-stat-number">50+</div>
+                        <div class="text-muted">Projects Delivered</div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="syntech-home-stat-number">98%</div>
+                        <div class="text-muted">Client Satisfaction</div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="syntech-home-stat-number">5+</div>
+                        <div class="text-muted">Years Experience</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-5">
+
+                <div class="syntech-home-image-card">
+
+                    <img src="~/images/syntech-home-1.jpg"
+                         alt="Syntech Software technology and software development"
+                         class="syntech-home-image" />
+
+                    <div class="syntech-home-image-caption">
+                        <i class="bi bi-code-slash"></i>
+                        <span>Custom Software Solutions</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SERVICES PREVIEW -->
+    <section class="syntech-home-section">
+
+        <div class="text-center mb-5">
+
+            <span class="text-uppercase fw-bold syntech-section-label">
+                What We Do
+            </span>
+
+            <h2 class="display-6 fw-bold mt-2 syntech-section-title">
+                Our <span>Services</span>
+            </h2>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+
+                <div class="syntech-public-card h-100">
+
+                    <div class="syntech-public-icon">
+                        <i class="bi bi-code-slash"></i>
+                    </div>
+
+                    <h3 class="h4 fw-bold">
+                        Web Development
+                    </h3>
+
+                    <p class="text-muted">
+                        Modern, scalable apps
+                    </p>
+
+                    <div class="mt-4">
+                        <span class="syntech-tag">ASP.NET</span>
+                        <span class="syntech-tag">React</span>
+                        <span class="syntech-tag">Node.js</span>
+                        <span class="syntech-tag">Tailwind</span>
+                        <span class="syntech-tag">PHP</span>
+                        <span class="syntech-tag">SQL Server</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="syntech-public-card h-100">
+
+                    <div class="syntech-public-icon">
+                        <i class="bi bi-phone"></i>
+                    </div>
+
+                    <h3 class="h4 fw-bold">
+                        Mobile Apps
+                    </h3>
+
+                    <p class="text-muted">
+                        iOS &amp; Android solutions
+                    </p>
+
+                    <div class="mt-4">
+                        <span class="syntech-tag">Kotlin</span>
+                        <span class="syntech-tag">Swift</span>
+                        <span class="syntech-tag">React Native</span>
+                        <span class="syntech-tag">UX/UI</span>
+                        <span class="syntech-tag">Firebase</span>
+                        <span class="syntech-tag">ASO</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="syntech-public-card h-100">
+
+                    <div class="syntech-public-icon">
+                        <i class="bi bi-gear"></i>
+                    </div>
+
+                    <h3 class="h4 fw-bold">
+                        Industrial IoT &amp; RPA
+                    </h3>
+
+                    <p class="text-muted">
+                        Smart automation systems
+                    </p>
+
+                    <div class="mt-4">
+                        <span class="syntech-tag">IoT</span>
+                        <span class="syntech-tag">MQTT</span>
+                        <span class="syntech-tag">Edge</span>
+                        <span class="syntech-tag">Cloud</span>
+                        <span class="syntech-tag">RPA</span>
+                        <span class="syntech-tag">Python</span>
+                        <span class="syntech-tag">AI/ML</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <a asp-controller="Home"
+               asp-action="Services"
+               class="syntech-outline-btn">
+                View All Services
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT SECTION -->
+    <section class="syntech-home-section">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <div class="syntech-home-image-card">
+
+                    <img src="~/images/syntech-home-2.jpg"
+                         alt="Syntech Software development and technology"
+                         class="syntech-home-image" />
+
+                    <div class="syntech-home-image-stat">
+                        <strong>5+</strong>
+                        <span>Years of Excellence</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <span class="text-uppercase fw-bold syntech-section-label">
+                    About Syntech
+                </span>
+
+                <h2 class="display-6 fw-bold mt-2 mb-3 syntech-section-title">
+                    We Build Software
+                    <span>That Works for You</span>
+                </h2>
+
+                <p class="text-muted">
+                    We deliver high-performance solutions from full-stack development to
+                    Industrial IoT and Robotic Process Automation &mdash; built to scale with your business.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2 my-4">
+
+                    <span class="syntech-tag">Full-Stack Development</span>
+                    <span class="syntech-tag">Mobile Applications</span>
+                    <span class="syntech-tag">Industrial IoT</span>
+                    <span class="syntech-tag">RPA</span>
+                    <span class="syntech-tag">UI/UX Design</span>
+                    <span class="syntech-tag">Cloud Architecture</span>
+
+                </div>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Profile"
+                       asp-action="Index"
+                       class="syntech-primary-btn">
+                        <i class="bi bi-person me-2"></i>
+                        My Account
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Account"
+                       asp-action="Register"
+                       class="syntech-primary-btn">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Learn More About Us
+                    </a>
+                }
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECENT WORK -->
+    <section class="syntech-home-section">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+            <h2 class="display-6 fw-bold mb-0 syntech-section-title">
+                Recent <span>Work</span>
+            </h2>
+
+            <a asp-controller="Home"
+               asp-action="Portfolio"
+               class="syntech-outline-btn">
+                View Portfolio
+            </a>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-7">
+
+                <div class="syntech-public-card h-100">
+
+                    <span class="syntech-card-label">
+                        Industrial IoT &middot; RPA
+                    </span>
+
+                    <h3 class="h4 fw-bold mt-2">
+                        EDM Fabricators
+                    </h3>
+
+                    <p class="text-muted">
+                        Full technical digital presence for a heavy industrial sector supplier with
+                        high-uptime architecture and streamlined B2B lead generation.
+                    </p>
+
+                    <div class="small text-muted">
+                        Web Development &middot; B2B
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-5">
+
+                <div class="syntech-dark-card h-100">
+
+                    <span class="syntech-card-label">
+                        Your Project Next?
+                    </span>
+
+                    <h3 class="h4 fw-bold mt-2">
+                        Let's Build Something Remarkable
+                    </h3>
+
+                    <p>
+                        Tell us what you're working on and we'll figure out the best path forward.
+                    </p>
+
+                    <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="syntech-light-btn">
+                        Get in Touch
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CALL TO ACTION -->
+    <section class="syntech-home-section syntech-home-cta">
+
+        <span class="text-uppercase fw-bold">
+            Ready to Start?
+        </span>
+
+        <h2 class="display-6 fw-bold mt-2">
+            Let's Turn Your Idea
+            <span>Into Reality</span>
+        </h2>
+
+        <p>
+            Book a free consultation and let our team design the perfect technical solution for your business.
+        </p>
+
+        <div class="d-flex justify-content-center flex-wrap gap-2">
+
+            <a asp-controller="Consultation"
+               asp-action="Create"
+               class="syntech-light-btn syntech-large-btn">
+                Book a Consultation
+            </a>
+
+            <a asp-controller="Home"
+               asp-action="Services"
+               class="syntech-dark-outline-btn syntech-large-btn">
+                Explore Services
+            </a>
+
+        </div>
+
+    </section>
+
 </div>
