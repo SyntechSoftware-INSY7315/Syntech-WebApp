@@ -1,0 +1,692 @@
+﻿
+/* =========================================================
+   SYNTECH SOFTWARE - ADMINISTRATOR DASHBOARD
+   ========================================================= */
+
+:root {
+    --admin-primary: #0076E0;
+    --admin-primary-dark: #0065C1;
+    --admin-heading: #202836;
+    --admin-text: #475569;
+    --admin-muted: #64748B;
+    --admin-border: #DCE3EC;
+    --admin-background: #F3F6FA;
+    --admin-white: #FFFFFF;
+    --admin-shadow: 0 8px 25px rgba(32, 40, 54, 0.05);
+}
+
+/* =========================================================
+   PAGE LAYOUT
+   ========================================================= */
+
+.admin-page {
+    width: 100%;
+    min-height: calc(100vh - 62px);
+    padding: 45px 24px 65px;
+    box-sizing: border-box;
+    background: radial-gradient( circle at top left, rgba(0, 118, 224, 0.05), transparent 35% ), var(--admin-background);
+}
+
+.admin-container {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+/* =========================================================
+   DASHBOARD HEADER
+   ========================================================= */
+
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 38px;
+}
+
+.admin-eyebrow {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--admin-primary);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.admin-header h1 {
+    margin: 0 0 8px;
+    color: var(--admin-heading);
+    font-size: 2rem;
+    font-weight: 750;
+    letter-spacing: -0.7px;
+}
+
+.admin-header p {
+    margin: 0;
+    color: var(--admin-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.admin-primary-button,
+.admin-secondary-button {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.87rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.admin-primary-button {
+    flex-shrink: 0;
+    color: #FFFFFF;
+    background: var(--admin-primary);
+    border: 1px solid var(--admin-primary);
+}
+
+    .admin-primary-button:hover {
+        color: #FFFFFF;
+        background: var(--admin-primary-dark);
+        border-color: var(--admin-primary-dark);
+        box-shadow: 0 5px 13px rgba(0, 118, 224, 0.18);
+        transform: translateY(-1px);
+    }
+
+.admin-secondary-button {
+    color: var(--admin-primary);
+    background: #FFFFFF;
+    border: 1px solid var(--admin-border);
+}
+
+    .admin-secondary-button:hover {
+        color: #FFFFFF;
+        background: var(--admin-primary);
+        border-color: var(--admin-primary);
+    }
+
+    .admin-primary-button:focus-visible,
+    .admin-secondary-button:focus-visible {
+        outline: 3px solid rgba(0, 118, 224, 0.3);
+        outline-offset: 3px;
+    }
+
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+
+.admin-section {
+    margin-bottom: 34px;
+}
+
+.admin-section-heading {
+    margin-bottom: 18px;
+}
+
+    .admin-section-heading h2,
+    .admin-card-header h2 {
+        margin: 0 0 6px;
+        color: var(--admin-heading);
+        font-size: 1.15rem;
+        font-weight: 750;
+    }
+
+    .admin-section-heading p,
+    .admin-card-header p {
+        margin: 0;
+        color: var(--admin-muted);
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+/* =========================================================
+   STATISTICS CARDS
+   ========================================================= */
+
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 19px;
+}
+
+.stat-card {
+    padding: 23px;
+    background: var(--admin-white);
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+    box-shadow: var(--admin-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(32, 40, 54, 0.08);
+    }
+
+.stat-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 21px;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.total-icon {
+    color: #175CD3;
+    background: #EAF2FF;
+}
+
+.active-icon {
+    color: #027A48;
+    background: #E7F6EE;
+}
+
+.inactive-icon {
+    color: #B54708;
+    background: #FFF4E5;
+}
+
+.stat-label {
+    color: var(--admin-text);
+    font-size: 0.88rem;
+    font-weight: 650;
+}
+
+.stat-number {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--admin-heading);
+    font-size: 2.15rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-description {
+    display: block;
+    color: var(--admin-muted);
+    font-size: 0.8rem;
+}
+
+/* =========================================================
+   ROLE DISTRIBUTION
+   ========================================================= */
+
+.role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 19px;
+}
+
+.role-card {
+    padding: 22px;
+    background: var(--admin-white);
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+    box-shadow: var(--admin-shadow);
+}
+
+.role-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.role-icon {
+    width: 39px;
+    height: 39px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.admin-role-icon {
+    color: #6941C6;
+    background: #F0EAFE;
+}
+
+.developer-role-icon {
+    color: #175CD3;
+    background: #EAF2FF;
+}
+
+.client-role-icon {
+    color: #027A48;
+    background: #E7F6EE;
+}
+
+.role-badge,
+.admin-table-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.admin-badge {
+    color: #6941C6;
+    background: #F0EAFE;
+}
+
+.developer-badge {
+    color: #175CD3;
+    background: #EAF2FF;
+}
+
+.client-badge {
+    color: #027A48;
+    background: #E7F6EE;
+}
+
+.role-number {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--admin-heading);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    font-variant-numeric: tabular-nums;
+}
+
+.role-card h3 {
+    margin: 0 0 6px;
+    color: var(--admin-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.role-card p {
+    margin: 0;
+    color: var(--admin-muted);
+    font-size: 0.79rem;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   CONTENT CARDS
+   ========================================================= */
+
+.admin-content-card {
+    overflow: hidden;
+    margin-bottom: 25px;
+    background: var(--admin-white);
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+    box-shadow: var(--admin-shadow);
+}
+
+.admin-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 24px 26px;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+/* =========================================================
+   RECENT USERS TABLE
+   ========================================================= */
+
+.admin-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+    .admin-table thead {
+        background: #F8FAFC;
+    }
+
+    .admin-table th {
+        padding: 15px 20px;
+        color: var(--admin-muted);
+        font-size: 0.75rem;
+        font-weight: 750;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+    }
+
+    .admin-table td {
+        padding: 17px 20px;
+        color: var(--admin-text);
+        border-top: 1px solid #EDF0F4;
+        font-size: 0.84rem;
+        white-space: nowrap;
+    }
+
+    .admin-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+        .admin-table tbody tr:hover {
+            background: #F8FAFC;
+        }
+
+.admin-user-id {
+    color: var(--admin-muted) !important;
+    font-size: 0.79rem !important;
+    font-weight: 650;
+}
+
+.admin-user-name {
+    color: var(--admin-heading) !important;
+    font-weight: 700;
+}
+
+.admin-user-email {
+    color: var(--admin-muted) !important;
+}
+
+.admin-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.active-status {
+    color: #027A48;
+    background: #E7F6EE;
+}
+
+.inactive-status {
+    color: #B54708;
+    background: #FFF4E5;
+}
+
+.status-indicator {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.admin-empty-state {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.empty-state-icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 17px;
+    color: var(--admin-primary);
+    background: #EAF3FF;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.admin-empty-state h3 {
+    margin: 0 0 8px;
+    color: var(--admin-heading);
+    font-size: 1.05rem;
+}
+
+.admin-empty-state p {
+    margin: 0 0 20px;
+    color: var(--admin-muted);
+    font-size: 0.85rem;
+}
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.admin-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    padding: 22px 26px 26px;
+}
+
+.admin-action-card {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    background: #FFFFFF;
+    border: 1px solid var(--admin-border);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+    .admin-action-card:hover {
+        background: #F8FBFF;
+        border-color: #A9CFFF;
+        transform: translateY(-2px);
+    }
+
+.action-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--admin-primary);
+    background: #EAF3FF;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.create-action-icon {
+    color: #027A48;
+    background: #E7F6EE;
+}
+
+.action-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+    .action-content strong {
+        color: var(--admin-heading);
+        font-size: 0.88rem;
+        font-weight: 750;
+    }
+
+    .action-content > span {
+        color: var(--admin-muted);
+        font-size: 0.78rem;
+        line-height: 1.45;
+    }
+
+.action-arrow {
+    color: var(--admin-primary);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.admin-action-card:focus-visible {
+    outline: 3px solid rgba(0, 118, 224, 0.3);
+    outline-offset: 3px;
+}
+
+.admin-table-wrapper:focus-visible {
+    outline: 2px solid var(--admin-primary);
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   TABLET RESPONSIVENESS
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .admin-page {
+        padding: 35px 18px 50px;
+    }
+
+    .statistics-grid,
+    .role-grid {
+        gap: 13px;
+    }
+
+    .stat-card,
+    .role-card {
+        padding: 18px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 14px 15px;
+    }
+}
+
+/* =========================================================
+   MOBILE RESPONSIVENESS
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .admin-page {
+        padding: 28px 13px 40px;
+    }
+
+    .admin-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 17px;
+        margin-bottom: 29px;
+    }
+
+        .admin-header h1 {
+            font-size: 1.55rem;
+        }
+
+        .admin-header p {
+            font-size: 0.83rem;
+        }
+
+        .admin-header .admin-primary-button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+    .statistics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .role-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 19px;
+    }
+
+    .stat-card-top {
+        margin-bottom: 14px;
+    }
+
+    .stat-number {
+        font-size: 1.9rem;
+    }
+
+    .role-card {
+        padding: 19px;
+    }
+
+    .admin-card-header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+        .admin-card-header .admin-secondary-button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+    .admin-quick-actions {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .admin-action-card {
+        padding: 15px;
+    }
+
+    .admin-table {
+        min-width: 650px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .stat-card,
+    .admin-primary-button,
+    .admin-secondary-button,
+    .admin-action-card,
+    .admin-table tbody tr {
+        transition: none;
+    }
+
+        .stat-card:hover,
+        .admin-primary-button:hover,
+        .admin-action-card:hover {
+            transform: none;
+        }
+}
