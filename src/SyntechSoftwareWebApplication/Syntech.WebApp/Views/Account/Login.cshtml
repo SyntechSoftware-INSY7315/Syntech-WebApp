@@ -4,57 +4,37 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="auth-page">
+<link rel="stylesheet" href="~/css/account-auth.css" asp-append-version="true" />
 
+<div class="auth-page auth-page-login">
     <div class="auth-container">
-
         <div class="auth-card">
 
-            <!-- =========================================================
-                 BRANDING
-                 ========================================================= -->
-
             <div class="auth-brand">
+                <span class="auth-eyebrow">SYNTECH SOFTWARE</span>
+
                 <img src="~/images/syntech-logo.png"
                      alt="Syntech Software"
                      class="auth-logo" />
 
                 <h1>Welcome Back</h1>
 
-                <p>
-                    Sign in to your Syntech Software account.
-                </p>
+                <p>Sign in to your Syntech Software account.</p>
             </div>
 
-
-            <!-- =========================================================
-                 REGISTRATION SUCCESS MESSAGE
-                 ========================================================= -->
             @if (TempData["RegistrationSuccess"] != null)
             {
                 <div class="auth-alert auth-alert-success"
                      role="alert">
-
                     <strong>Account created.</strong>
                     <span>@TempData["RegistrationSuccess"]</span>
-
                 </div>
             }
-
-
-            <!-- =========================================================
-                 GENERAL VALIDATION ERRORS
-                 ========================================================= -->
 
             <div asp-validation-summary="ModelOnly"
                  class="auth-alert auth-alert-error"
                  role="alert">
             </div>
-
-
-            <!-- =========================================================
-                 LOGIN FORM
-                 ========================================================= -->
 
             <form asp-controller="Account"
                   asp-action="Login"
@@ -63,15 +43,6 @@
 
                 @Html.AntiForgeryToken()
 
-
-                @*
-                    Preserve the return URL when one exists.
-
-                    This allows a user who attempted to access a
-                    protected page to return to that page after
-                    successfully logging in.
-                *@
-
                 @if (ViewData["ReturnUrl"] != null)
                 {
                     <input type="hidden"
@@ -79,16 +50,8 @@
                            value="@ViewData["ReturnUrl"]" />
                 }
 
-
-                <!-- =====================================================
-                     EMAIL
-                     ===================================================== -->
-
                 <div class="auth-field">
-
-                    <label asp-for="Email"
-                           class="auth-label">
-                    </label>
+                    <label asp-for="Email" class="auth-label"></label>
 
                     <input asp-for="Email"
                            class="auth-input"
@@ -97,21 +60,11 @@
                            placeholder="Enter your email address" />
 
                     <span asp-validation-for="Email"
-                          class="auth-validation">
-                    </span>
-
+                          class="auth-validation"></span>
                 </div>
 
-
-                <!-- =====================================================
-                     PASSWORD
-                     ===================================================== -->
-
                 <div class="auth-field">
-
-                    <label asp-for="Password"
-                           class="auth-label">
-                    </label>
+                    <label asp-for="Password" class="auth-label"></label>
 
                     <input asp-for="Password"
                            class="auth-input"
@@ -119,314 +72,42 @@
                            placeholder="Enter your password" />
 
                     <span asp-validation-for="Password"
-                          class="auth-validation">
-                    </span>
-
+                          class="auth-validation"></span>
                 </div>
 
-
-                <!-- =====================================================
-                     REMEMBER ME
-                     ===================================================== -->
-
                 <div class="auth-options">
-
                     <label class="remember-option">
-
                         <input asp-for="RememberMe"
                                class="remember-checkbox" />
 
                         <span>
                             @Html.DisplayNameFor(model => model.RememberMe)
                         </span>
-
                     </label>
-
                 </div>
 
-
-                <!-- =====================================================
-                     SUBMIT
-                     ===================================================== -->
-
-                <button type="submit"
-                        class="auth-submit">
+                <button type="submit" class="auth-submit">
                     Sign In
                 </button>
-
             </form>
-
-
-            <!-- =========================================================
-                 REGISTRATION LINK
-                 ========================================================= -->
 
             <div class="auth-divider">
                 <span>New to Syntech?</span>
             </div>
 
             <div class="auth-register">
-
-                <p>
-                    Don't have an account?
-                </p>
+                <p>Don't have an account?</p>
 
                 <a asp-controller="Account"
                    asp-action="Register"
                    class="auth-register-link">
                     Create an account
                 </a>
-
             </div>
 
         </div>
-
     </div>
-
 </div>
-
-
-<!-- =============================================================
-     PAGE-SPECIFIC STYLING
-     ============================================================= -->
-
-<style>
-
-    .auth-page {
-        min-height: calc(100vh - 160px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 50px 20px 60px;
-        background: #f8fafc;
-    }
-
-    .auth-container {
-        width: 100%;
-        max-width: 480px;
-    }
-
-    .auth-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 42px 44px;
-        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
-    }
-
-    .auth-brand {
-        text-align: center;
-        margin-bottom: 32px;
-    }
-
-    .auth-logo {
-        width: 58px;
-        height: 58px;
-        object-fit: contain;
-        margin-bottom: 16px;
-    }
-
-    .auth-brand h1 {
-        margin: 0 0 8px;
-        color: #172033;
-        font-size: 30px;
-        font-weight: 700;
-        letter-spacing: -0.4px;
-    }
-
-    .auth-brand p {
-        margin: 0;
-        color: #64748b;
-        font-size: 15px;
-        line-height: 1.6;
-    }
-
-    .auth-form {
-        margin-top: 4px;
-    }
-
-    .auth-field {
-        margin-bottom: 21px;
-    }
-
-    .auth-label {
-        display: block;
-        margin-bottom: 8px;
-        color: #172033;
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    .auth-input {
-        width: 100%;
-        min-height: 46px;
-        padding: 11px 14px;
-        border: 1px solid #cbd5e1;
-        border-radius: 8px;
-        background: #ffffff;
-        color: #172033;
-        font-size: 14px;
-        transition:
-            border-color 0.2s ease,
-            box-shadow 0.2s ease;
-    }
-
-    .auth-input::placeholder {
-        color: #94a3b8;
-    }
-
-    .auth-input:focus {
-        outline: none;
-        border-color: #4169e1;
-        box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.12);
-    }
-
-    .auth-validation {
-        display: block;
-        margin-top: 6px;
-        color: #dc3545;
-        font-size: 13px;
-    }
-
-    .auth-options {
-        margin: 2px 0 24px;
-    }
-
-    .remember-option {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin: 0;
-        color: #475569;
-        font-size: 14px;
-        cursor: pointer;
-    }
-
-    .remember-checkbox {
-        width: 16px;
-        height: 16px;
-        margin: 0;
-        accent-color: #4169e1;
-        cursor: pointer;
-    }
-
-    .auth-submit {
-        width: 100%;
-        min-height: 46px;
-        border: none;
-        border-radius: 8px;
-        background: #4169e1;
-        color: #ffffff;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        transition:
-            background 0.2s ease,
-            transform 0.2s ease,
-            box-shadow 0.2s ease;
-    }
-
-    .auth-submit:hover {
-        background: #3157d5;
-        box-shadow: 0 5px 14px rgba(65, 105, 225, 0.22);
-        transform: translateY(-1px);
-    }
-
-    .auth-submit:active {
-        transform: translateY(0);
-    }
-
-    .auth-divider {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin: 30px 0 20px;
-        color: #94a3b8;
-        font-size: 12px;
-    }
-
-    .auth-divider::before,
-    .auth-divider::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: #e2e8f0;
-    }
-
-    .auth-register {
-        text-align: center;
-    }
-
-    .auth-register p {
-        margin: 0 0 7px;
-        color: #64748b;
-        font-size: 14px;
-    }
-
-    .auth-register-link {
-        color: #4169e1;
-        font-size: 14px;
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-    .auth-register-link:hover {
-        color: #3157d5;
-        text-decoration: underline;
-    }
-
-    .auth-alert {
-        padding: 12px 14px;
-        margin-bottom: 22px;
-        border-radius: 8px;
-        font-size: 13px;
-        line-height: 1.5;
-    }
-
-    .auth-alert-success {
-        border: 1px solid #b7ebc6;
-        background: #f0fff4;
-        color: #176b35;
-    }
-
-    .auth-alert-success strong {
-        display: block;
-        margin-bottom: 2px;
-    }
-
-    .auth-alert-error {
-        border: 1px solid #f5c2c7;
-        background: #fff5f5;
-        color: #b42318;
-    }
-
-    .auth-alert-error:empty {
-        display: none;
-    }
-
-    @@media (max-width: 576px) {
-
-        .auth-page {
-            padding: 30px 15px 40px;
-        }
-
-        .auth-card {
-            padding: 32px 24px;
-            border-radius: 12px;
-        }
-
-        .auth-brand h1 {
-            font-size: 26px;
-        }
-
-        .auth-logo {
-            width: 52px;
-            height: 52px;
-        }
-    }
-
-</style>
-
 
 @section Scripts
 {

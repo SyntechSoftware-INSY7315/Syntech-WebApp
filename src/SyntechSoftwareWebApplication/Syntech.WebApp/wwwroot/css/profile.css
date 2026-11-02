@@ -1,0 +1,583 @@
+﻿
+/* =========================================================
+   SYNTECH SOFTWARE - PROFILE PAGE
+   ========================================================= */
+
+:root {
+    --profile-primary: #0076E0;
+    --profile-primary-dark: #0065C1;
+    --profile-heading: #202836;
+    --profile-text: #475569;
+    --profile-muted: #64748B;
+    --profile-border: #DCE3EC;
+    --profile-background: #F3F6FA;
+    --profile-white: #FFFFFF;
+    --profile-shadow: 0 12px 35px rgba(32, 40, 54, 0.07);
+}
+
+/* =========================================================
+   PAGE LAYOUT
+   ========================================================= */
+
+.profile-page {
+    width: 100%;
+    min-height: calc(100vh - 62px);
+    padding: 55px 20px 70px;
+    background: radial-gradient( circle at top left, rgba(0, 118, 224, 0.06), transparent 35% ), var(--profile-background);
+    box-sizing: border-box;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* =========================================================
+   PROFILE HEADER
+   ========================================================= */
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 32px;
+}
+
+.profile-avatar {
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    background: linear-gradient( 135deg, #0076E0, #355CE5 );
+    border-radius: 50%;
+    font-size: 1.8rem;
+    font-weight: 750;
+    box-shadow: 0 6px 16px rgba(0, 118, 224, 0.2);
+}
+
+.profile-heading-content {
+    min-width: 0;
+}
+
+.profile-eyebrow {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--profile-primary);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.profile-header h1 {
+    margin: 0 0 7px;
+    color: var(--profile-heading);
+    font-size: 2rem;
+    font-weight: 750;
+    letter-spacing: -0.7px;
+}
+
+.profile-header p {
+    margin: 0;
+    color: var(--profile-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   SUCCESS AND VALIDATION MESSAGES
+   ========================================================= */
+
+.profile-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 18px;
+    margin-bottom: 24px;
+    border-radius: 9px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.profile-alert-success {
+    color: #0F5132;
+    background: #D1E7DD;
+    border: 1px solid #A3CFBB;
+}
+
+.alert-icon {
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    background: #198754;
+    border-radius: 50%;
+    font-weight: 800;
+}
+
+.profile-validation {
+    color: #842029;
+    background: #F8D7DA;
+    border: 1px solid #F5C2C7;
+    border-radius: 8px;
+    font-size: 0.88rem;
+}
+
+    .profile-validation:empty,
+    .profile-validation.validation-summary-valid {
+        display: none;
+    }
+
+    .profile-validation:not(:empty) {
+        padding: 13px 16px;
+        margin-bottom: 22px;
+    }
+
+/* =========================================================
+   PROFILE CARD
+   ========================================================= */
+
+.profile-card {
+    overflow: hidden;
+    background: var(--profile-white);
+    border: 1px solid var(--profile-border);
+    border-radius: 13px;
+    box-shadow: var(--profile-shadow);
+}
+
+.profile-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 26px 32px;
+    border-bottom: 1px solid var(--profile-border);
+}
+
+    .profile-card-header h2 {
+        margin: 0 0 7px;
+        color: var(--profile-heading);
+        font-size: 1.2rem;
+        font-weight: 750;
+    }
+
+    .profile-card-header p {
+        margin: 0;
+        color: var(--profile-muted);
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+.section-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--profile-primary);
+    background: #EAF3FF;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.profile-card-body {
+    padding: 30px 32px 34px;
+}
+
+/* =========================================================
+   PROFILE FORM
+   ========================================================= */
+
+.profile-field {
+    margin-bottom: 25px;
+}
+
+.profile-label {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--profile-heading);
+    font-size: 0.88rem;
+    font-weight: 650;
+}
+
+.profile-input {
+    display: block;
+    width: 100%;
+    min-height: 49px;
+    padding: 12px 15px;
+    color: var(--profile-heading);
+    background: #FFFFFF;
+    border: 1px solid var(--profile-border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .profile-input:hover:not([readonly]) {
+        border-color: #AAB8CA;
+    }
+
+    .profile-input:focus {
+        outline: none;
+        border-color: var(--profile-primary);
+        box-shadow: 0 0 0 3px rgba(0, 118, 224, 0.12);
+    }
+
+    .profile-input:focus-visible {
+        outline: 2px solid var(--profile-primary);
+        outline-offset: 2px;
+    }
+
+.profile-readonly {
+    color: #64748B;
+    background: #F5F7FA;
+    border-color: #E5EAF0;
+    cursor: not-allowed;
+}
+
+.profile-help {
+    display: block;
+    margin-top: 7px;
+    color: var(--profile-muted);
+    font-size: 0.79rem;
+    line-height: 1.5;
+}
+
+.profile-validation-message {
+    display: block;
+    margin-top: 6px;
+    color: #DC3545;
+    font-size: 0.82rem;
+}
+
+/* =========================================================
+   ROLE BADGES
+   ========================================================= */
+
+.role-display {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+}
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 13px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.admin-role {
+    color: #6941C6;
+    background: #F0EAFE;
+}
+
+.developer-role {
+    color: #175CD3;
+    background: #EAF2FF;
+}
+
+.client-role {
+    color: #027A48;
+    background: #E7F6EE;
+}
+
+/* =========================================================
+   PROFILE ACTIONS
+   ========================================================= */
+
+.profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid var(--profile-border);
+}
+
+.profile-save-button,
+.profile-cancel-button {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 23px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-save-button {
+    color: #FFFFFF;
+    background: var(--profile-primary);
+    border: 1px solid var(--profile-primary);
+}
+
+    .profile-save-button:hover {
+        color: #FFFFFF;
+        background: var(--profile-primary-dark);
+        border-color: var(--profile-primary-dark);
+        box-shadow: 0 5px 12px rgba(0, 118, 224, 0.18);
+        transform: translateY(-1px);
+    }
+
+.profile-cancel-button {
+    color: var(--profile-text);
+    background: #FFFFFF;
+    border: 1px solid var(--profile-border);
+}
+
+    .profile-cancel-button:hover {
+        color: var(--profile-heading);
+        background: #F3F6FA;
+        border-color: #AAB8CA;
+    }
+
+/* =========================================================
+   ACCOUNT SECURITY CARD
+   ========================================================= */
+
+.security-card {
+    display: flex;
+    align-items: center;
+    gap: 19px;
+    padding: 25px 28px;
+    margin-top: 24px;
+    background: var(--profile-white);
+    border: 1px solid var(--profile-border);
+    border-radius: 13px;
+    box-shadow: var(--profile-shadow);
+}
+
+.security-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #EAF3FF;
+    border-radius: 11px;
+    font-size: 1.25rem;
+}
+
+.security-content {
+    flex: 1;
+    min-width: 0;
+}
+
+    .security-content h2 {
+        margin: 0 0 6px;
+        color: var(--profile-heading);
+        font-size: 1rem;
+        font-weight: 750;
+    }
+
+    .security-content p {
+        margin: 0;
+        color: var(--profile-muted);
+        font-size: 0.85rem;
+        line-height: 1.55;
+    }
+
+.security-button {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: var(--profile-primary);
+    background: #EAF3FF;
+    border: 1px solid #D7E8FF;
+    border-radius: 8px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+    .security-button:hover {
+        color: #FFFFFF;
+        background: var(--profile-primary);
+        border-color: var(--profile-primary);
+    }
+
+    .security-button:focus-visible,
+    .profile-save-button:focus-visible,
+    .profile-cancel-button:focus-visible {
+        outline: 3px solid rgba(0, 118, 224, 0.3);
+        outline-offset: 3px;
+    }
+
+/* =========================================================
+   TABLET RESPONSIVENESS
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .profile-page {
+        padding: 40px 18px 55px;
+    }
+
+    .profile-header {
+        gap: 17px;
+    }
+
+    .profile-avatar {
+        width: 65px;
+        height: 65px;
+        font-size: 1.55rem;
+    }
+
+    .profile-header h1 {
+        font-size: 1.7rem;
+    }
+
+    .profile-card-header,
+    .profile-card-body {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .security-card {
+        flex-wrap: wrap;
+    }
+
+    .security-content {
+        flex-basis: calc(100% - 75px);
+    }
+
+    .security-button {
+        margin-left: 67px;
+    }
+}
+
+/* =========================================================
+   MOBILE RESPONSIVENESS
+   ========================================================= */
+
+@media (max-width: 480px) {
+    .profile-page {
+        padding: 30px 13px 40px;
+    }
+
+    .profile-header {
+        align-items: flex-start;
+        gap: 13px;
+        margin-bottom: 25px;
+    }
+
+    .profile-avatar {
+        width: 53px;
+        height: 53px;
+        font-size: 1.3rem;
+    }
+
+    .profile-header h1 {
+        font-size: 1.45rem;
+    }
+
+    .profile-header p {
+        font-size: 0.83rem;
+    }
+
+    .profile-eyebrow {
+        font-size: 0.68rem;
+    }
+
+    .profile-card-header {
+        padding: 21px 19px;
+    }
+
+        .profile-card-header h2 {
+            font-size: 1.05rem;
+        }
+
+        .profile-card-header p {
+            font-size: 0.82rem;
+        }
+
+    .profile-card-body {
+        padding: 23px 19px 25px;
+    }
+
+    .profile-field {
+        margin-bottom: 21px;
+    }
+
+    .profile-input {
+        min-height: 47px;
+        font-size: 0.87rem;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-save-button,
+    .profile-cancel-button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .security-card {
+        align-items: flex-start;
+        gap: 13px;
+        padding: 20px 17px;
+    }
+
+    .security-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .security-content {
+        flex-basis: calc(100% - 60px);
+    }
+
+        .security-content h2 {
+            font-size: 0.94rem;
+        }
+
+        .security-content p {
+            font-size: 0.8rem;
+        }
+
+    .security-button {
+        width: 100%;
+        margin: 5px 0 0;
+        box-sizing: border-box;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .profile-input,
+    .profile-save-button,
+    .profile-cancel-button,
+    .security-button {
+        transition: none;
+    }
+
+        .profile-save-button:hover {
+            transform: none;
+        }
+}
