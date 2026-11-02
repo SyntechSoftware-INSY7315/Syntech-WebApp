@@ -74,7 +74,17 @@ Visual Studio should automatically restore the required NuGet packages. If neces
 4. The web application should open in your default web browser
 5. You can also press F5 to run the application with the Visual Studio debugger
 
-### Step 6 - Database Access
+### Step 6 - Log in as an Admin
+If you wish to log in as an admin, please follow these instructions:
+
+1. Launch the web application in Visual Studio (step 5)
+2. Click the Login option on the navigation bar
+3. Enter the following information to log in as an admin:
+   * Email: admin@syntech.local
+   * Password: ChangeThisAdminPassword2026!
+4. Click the Sign In button
+
+### Step 7 - Database Access
 The application uses the SQL Server database specified in the User Secrets connection string. To open the database, do the following:
 
 1. Open SQL Server Management Studio 22
